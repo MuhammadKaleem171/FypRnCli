@@ -8,17 +8,35 @@ import {
   Button,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ScrollView
  
 } from "react-native";
 export default StudentLogin=()=>{
   const [userName,setUserName]=useState('')  
   const [password,setPassword]=useState('')
+  const [responsee,setResponse]=useState()
+
+  const postData=()=>{
+    console.log("clicked   ")
+    fetch('http://192.168.1.15/backend/api/Values/post', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        UserName: userName,
+        U_Password: password,
+      }),
+    }).then((response) =>setResponse(()=>console.log(response)))     
+   }
     return(
         <View style={{display:'flex',flex:2,backgroundColor:'red'}}>
           <View style={styles.container}>
 
 
 <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}  style={styles.form}>
+<ScrollView>
  {<Image source = {require("../../assets/index.png")}style = {{ width: 100, height: 100,display:'flex',marginLeft:100}}/> }
 <View style={{display:'flex',marginBottom:20,alignItems:'center' }}>
   <Text style={{fontSize:34,fontFamily:'ariel',color:'#fb5b5a',fontWeight:'600'}}>Student LogIn </Text>
@@ -42,9 +60,10 @@ export default StudentLogin=()=>{
         />
       </View>
  
-      <TouchableOpacity style={styles.loginBtn} onPress={()=>console.log('hello',userName,password)}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity style={styles.loginBtn} onPress={postData}>
+        <Text style={styles.loginText} >LOGIN</Text>
       </TouchableOpacity>
+      </ScrollView>
       </KeyboardAvoidingView >
     </View>
     </View>

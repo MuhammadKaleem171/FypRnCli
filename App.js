@@ -16,16 +16,22 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import MainScreen from './Screens/MainScreen';
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack'
+import MainScreen from './Screens/MainScreen'
+
 import StudentLogin from './Screens/Student/StudentLogin'
 import TeacherLogIn from './Screens/Teacher/TeacherLogin'
-
+const Stack = createStackNavigator();
 const App =()=> {
   return (
-    <View style={{display:'flex',flex:1}}>
-<StudentLogin/>
-<TeacherLogIn/>
-</View>
+    <NavigationContainer>
+    <Stack.Navigator initialRouteName="MainScreen">
+      <Stack.Screen name="MainScreen" component={MainScreen}/>
+      <Stack.Screen name="Student" component={StudentLogin}/>
+      <Stack.Screen name="Teacher" component={TeacherLogIn}/>
+    </Stack.Navigator>
+    </NavigationContainer>
 
   );
 };
