@@ -11,7 +11,7 @@ import {
   ScrollView
  
 } from "react-native";
-export default StudentLogin=()=>{
+const StudentLogin=({navigation})=>{
   const [userName,setUserName]=useState('')  
   const [password,setPassword]=useState('')
   const [responsee,setResponse]=useState()
@@ -66,6 +66,9 @@ export default StudentLogin=()=>{
       </ScrollView>
       </KeyboardAvoidingView >
     </View>
+    <Button onPress={()=>navigation.navigate('query')} title="Learn More"
+  color="#841584"
+  accessibilityLabel="Learn more about this purple button"/> 
     </View>
     )
 }
@@ -125,3 +128,5 @@ borderWidth:1
     
   },
 });
+
+export default StudentLogin;

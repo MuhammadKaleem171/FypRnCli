@@ -23,7 +23,7 @@ const  MainScreen=({navigation})=>{
         <Text style={{fontSize:24,marginLeft:20}}>  Login As </Text>
       </View>
       <View style={{flex:4}}>
-      <TouchableOpacity  style={styles.btn} onPress={()=>navigation.navigate('Student')}>
+      <TouchableOpacity  style={styles.btn} onPress={()=>navigation.navigate('Home',{screen:'Student'})}>
         <Text style={styles.title}> Student</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btn}  onPress={()=>navigation.navigate('Teacher')} >
@@ -31,7 +31,6 @@ const  MainScreen=({navigation})=>{
       </TouchableOpacity>
       </View>
     </View>
-
    )
 }
 const styles=StyleSheet.create({
