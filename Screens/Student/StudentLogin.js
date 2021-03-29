@@ -18,7 +18,7 @@ const StudentLogin=({navigation})=>{
 
   const postData=()=>{
     console.log("clicked   ")
-    fetch('http://192.168.1.15/backend/api/Values/post', {
+    fetch('http://192.168.10.10/backend/api/Values/post', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -30,6 +30,26 @@ const StudentLogin=({navigation})=>{
       }),
     }).then((response) =>setResponse(()=>console.log(response)))     
    }
+
+
+   const Login=()=>{
+  //  props.navigation.push('query')
+   fetch(`http://192.168.10.10/backend/api/values/login?userName=${userName}&password=${password}`, {
+     
+   }).then(response => response.json()) 
+   .then(json => {
+     move(json)
+   })
+  
+  }
+  const move=(res)=>{
+   if(res){
+    navigation.push('query')  
+   }
+   else if(res==false){
+     alert('false')
+   }
+  }
     return(
         <View style={{display:'flex',flex:2,backgroundColor:'red'}}>
           <View style={styles.container}>
@@ -60,7 +80,7 @@ const StudentLogin=({navigation})=>{
         />
       </View>
  
-      <TouchableOpacity style={styles.loginBtn} onPress={postData}>
+      <TouchableOpacity style={styles.loginBtn} onPress={Login}>
         <Text style={styles.loginText} >LOGIN</Text>
       </TouchableOpacity>
       </ScrollView>
