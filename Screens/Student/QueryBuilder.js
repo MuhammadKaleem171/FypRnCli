@@ -308,6 +308,8 @@ setQColum(v);
           }} title="Execute "
   color="#fb5b5a"
   accessibilityLabel="Learn more about this purple button"/> 
+
+
   </View>
           </ScrollView>
 
@@ -375,6 +377,15 @@ setQColum(v);
             />
             </View>
             </View>
+            <Button onPress={() => {
+setShowModal(!showModal);
+props.navigation.navigate("ExQuery",{
+ userID: 1,
+ q:query
+})
+}} title="ExQuery"
+color="#fb5b5a"
+accessibilityLabel="Learn more about this purple button"/> 
           </View>
           <Button
               title="Click To Close Modal"
@@ -384,6 +395,8 @@ setQColum(v);
                 setResult('')
               }}
             />
+
+
            
         </Modal>
         
