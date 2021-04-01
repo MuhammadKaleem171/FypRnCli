@@ -84,7 +84,7 @@ const data=da.itemValue
       fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
 .then(res=>res.json())
 .then((data)=>{
-    console.log(data)
+    //console.log(data)
     setCoulumnName(data)
 });
     }
@@ -95,7 +95,7 @@ const data=da.itemValue
             fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
       .then(res=>res.json())
       .then((data)=>{
-          console.log(data)
+         // console.log(data)
           setCoulumnName2(data)
       });
           }
@@ -268,8 +268,9 @@ setQColum(v);
 
 <View > 
   {
+    ColumnName.length>=1?
     ColumnName.map(data=>{
-      console.log(data)
+     // console.log(data)
       return(
         <View key={data.id} style={styles.ColumView}>
           <CheckBox 
@@ -287,7 +288,7 @@ setQColum(v);
           <Text>{data.column}</Text>
           </View>
       )
-    })
+    }):null
   }
   </View>
   <View>
@@ -328,10 +329,11 @@ setQColum(v);
 </View>
 <View > 
   {
-    ColumnName2.map(data=>{
-      console.log(data)
+    
+    ColumnName2.map((data,index)=>{
+      //console.log(data)
       return(
-        <View key={data.id} style={styles.ColumView}>
+        <View key={index} style={styles.ColumView}>
           <CheckBox 
           value={data.isChecked}
         onValueChange={e=>{
@@ -376,7 +378,7 @@ setQColum(v);
     <TextInput 
     value={QColum}
     placeholder="Selected Column "
-    style={styles.ColumnTextView}
+    stylce={styles.ColumnTextView}
     />
     <View style={{flex:1,flexDirection:'row',marginTop:10}}>
     <Switch
