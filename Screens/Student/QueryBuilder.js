@@ -85,12 +85,20 @@ const data=da.itemValue
 .then(res=>res.json())
 .then((data)=>{
     console.log(data)
-    if(isJoin===true){
-      setCoulumnName2(data)
-    }
     setCoulumnName(data)
 });
     }
+
+    const GetColumnNames2=(da)=>{
+      console.log('table name name',da.itemValue)
+      const data=da.itemValue
+            fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+      .then(res=>res.json())
+      .then((data)=>{
+          console.log(data)
+          setCoulumnName2(data)
+      });
+          }
 
  const co=()=>{
   let a='';
@@ -304,8 +312,8 @@ setQColum(v);
  mode="dropdown"
   selectedValue={SelectedTable}
   onValueChange={((itemValue, itemIndex)=>{
-    setSelecteTable2(itemValue)
-    GetColumnNames({itemValue})
+    setSelectedTable2(itemValue)
+    GetColumnNames2({itemValue})
   }
   )
   }>
@@ -318,6 +326,31 @@ setQColum(v);
  
 </Picker>
 </View>
+<View > 
+  {
+    ColumnName2.map(data=>{
+      console.log(data)
+      return(
+        <View key={data.id} style={styles.ColumView}>
+          <CheckBox 
+          value={data.isChecked}
+        onValueChange={e=>{
+          setCoulumnName(ColumnName2.map(d=>{
+            if(d.id==data.id){
+              d.isChecked=!data.isChecked
+            }
+            return d;
+          }))
+
+        }}
+          />
+          <Text>{data.column}</Text>
+          </View>
+      )
+    })
+  }
+  </View>
+
           </View>
           :null
         }
