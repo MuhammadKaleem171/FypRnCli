@@ -14,16 +14,33 @@ import {
   
   import CheckBox from '@react-native-community/checkbox'
   import {Picker} from '@react-native-picker/picker'
+
+  const lisy=[{
+    Query:"select top 10 rows"
+  },
+  {
+    query:'Max'
+  },
+  {
+    Query:' select Min'
+  }
+  ,{
+    Query:'select avg'
+  }
+  ]
   const QueryBuilder=(props)=>{
 
     const[Database,setDatabase]=useState([])
     const[SelectedDatabase,setSelectedDatabase]=useState()
     const [TableName,setTableName]=useState([])
     const[SelectedTable,setSelecteTable]=useState()
+    const[SelectedTable2,setSelectedTable2]=useState()
     const [ColumnName,setCoulumnName]=useState([])
+    const [ColumnName2,setCoulumnName2]=useState([])
     const [QueryType,setQueryType]=useState('Select')
     const [QColum,setQColum]=useState('')
     const [isEnabled, setIsEnabled] = useState(false);
+    const[isJoin,setIsJoin]=useState(false)
 
     const[WhereColumn,setWhereColumn]=useState('')
     const[condition,setCondition]=useState()
@@ -36,9 +53,12 @@ import {
 
     const [query,setQuery]=useState()
   
+    const [getSavedQuery,setGetSavedQuery]=useState([])
+    const [Query_Name,setQuery_Name]=useState()
+
 
     useEffect(() => {
-      fetch('http://192.168.10.10/backend/api/values/GetDatabase')
+      fetch('http://192.168.10.2/backend/api/values/GetDatabase')
       .then(res=>res.json())
       .then((data)=>{
           setDatabase(data)
@@ -49,7 +69,7 @@ import {
     
    const GetTabeName=(item)=>{
      const database=item.itemValue
-    fetch(`http://192.168.10.10/backend/api/values/gettable?TableName=${database}`)
+    fetch(`http://192.168.10.2/backend/api/values/gettable?TableName=${database}`)
     .then(res=>res.json())
     .then((data)=>{
         console.log(data)
@@ -59,12 +79,15 @@ import {
     }
    
 const GetColumnNames=(da)=>{
-console.log('coulm name',da.itemValue)
+console.log('table name name',da.itemValue)
 const data=da.itemValue
-      fetch(`http://192.168.10.10/backend/api/values/GetTableColumn?table=${data}`)
+      fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
 .then(res=>res.json())
 .then((data)=>{
     console.log(data)
+    if(isJoin===true){
+      setCoulumnName2(data)
+    }
     setCoulumnName(data)
 });
     }
@@ -104,31 +127,62 @@ setQColum(v);
    
  }
 
- const mData=()=>{
-  const databaseName=SelectedDatabase
-  console.log('eeeeeeeeeeeeeeeeeee',databaseName)
-  fetch(`http://192.168.10.10/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
-  .then(res=>res.json())
-  .then((data)=>{
-    console.log(data)
-      setResult(data[0])
+//  const mData=()=>{
+//   const databaseName=SelectedDatabase
+//   console.log('eeeeeeeeeeeeeeeeeee',databaseName)
+//   fetch(`http://192.168.10.4/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
+//   .then(res=>res.json())
+//   .then((data)=>{
+//     console.log(data)
+//       setResult(data[0])
       
       
-      result.map(m=>{
-        let va=Object.values(m)
-        for(let v of va){
-          console.log(`valuesssss${v}`)
-        }
-        for (const [key, value] of Object.entries(m)) {
-          console.log(`${key}: ${value}`);
-        }
-      })
+//       result.map(m=>{
+//         let va=Object.values(m)
+//         for(let v of va){
+//           console.log(`valuesssss${v}`)
+//         }
+//         for (const [key, value] of Object.entries(m)) {
+//           console.log(`${key}: ${value}`);
+//         }
+//       })
       
-  });       
+//   });       
   
-  console.log(result)
+//   console.log(result)
+//  }
+ const GetqueryFromDatabase=()=>{
+   console.log('clicked')
+   fetch(`http://192.168.10.2/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+   .then(res=>res.json())
+   .then((response)=>{
+     console.log(response)
+     setGetSavedQuery(response)
+   }).catch((error)=>console.log('erroe',error))
  }
 
+ const PostSavedQuery=()=>{
+   console.log('post')
+
+  fetch('http://192.168.10.2/backend/api/Values/PostQuery', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      UserName: "17-ardi-3461",
+        Query:query,
+        DatabaseName:SelectedDatabase,
+        Query_Name:Query_Name
+    }),
+  }).then(response => response.json()) 
+  .then(json => {
+    console.log(json);
+    alert(json)
+  })
+  
+ }
  const Taheader=()=>{
    if(result===undefined){
      console.log('ffffffffff')
@@ -152,9 +206,11 @@ setQColum(v);
 }
 
  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+ const toggleSwitch2 = () => setIsJoin(previousState => !previousState);
     return(
-        <View style={{flex:1,backgroundColor:'#fff'}}>
-          <ScrollView>
+
+        <View style={{flex:1,backgroundColor:'#fff'}}>     
+          <ScrollView style={{position:'relative'}}>
             <View style={styles.DatabaseView}>
             <Text style={styles.heading1}>Select the Database</Text>
           <Picker style={styles.dataBasePiker}
@@ -205,6 +261,7 @@ setQColum(v);
 <View > 
   {
     ColumnName.map(data=>{
+      console.log(data)
       return(
         <View key={data.id} style={styles.ColumView}>
           <CheckBox 
@@ -224,6 +281,48 @@ setQColum(v);
       )
     })
   }
+  </View>
+  <View>
+  <View style={{flex:1,flexDirection:'row',marginTop:10}}>
+  <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch2}
+        value={isJoin}
+      />
+      <Text style={{fontSize:16,marginLeft:15}}>  Join  </Text>
+      </View>
+      <View>
+        {
+          isJoin?<View>
+            <View style={styles.TableView} >
+
+<Text style={styles.heading1}>Select Table Name </Text>
+<Picker style={styles.dataBasePiker}
+ dropdownIconColor="#21130d" 
+ mode="dropdown"
+  selectedValue={SelectedTable}
+  onValueChange={((itemValue, itemIndex)=>{
+    setSelecteTable2(itemValue)
+    GetColumnNames({itemValue})
+  }
+  )
+  }>
+    {
+      TableName.map(data=>{
+        return(  <Picker.Item key={data} label={data} value={data} />)
+      })
+    }
+
+ 
+</Picker>
+</View>
+          </View>
+          :null
+        }
+
+      </View>
   </View>
   <View>
   <View style={styles.QueryView}>
@@ -331,7 +430,15 @@ setQColum(v);
             <View style={{marginTop:10,marginBottom:10}}>
               <Text>{query}</Text>
             </View>
-  <Button onPress={mData} title="Execute Query"
+  <Button 
+  onPress={()=>{
+    setShowModal(!showModal);
+    props.navigation.navigate('ExQuery',{
+      Query:query,
+      database:SelectedDatabase
+     } )
+  }
+} title="Execute Query"
   color="#fb5b5a"
   accessibilityLabel="Learn more about this purple button"/> 
           
@@ -359,12 +466,12 @@ setQColum(v);
         }
    </View>
  
-   <View style={{display:'flex',flex:1,flexDirection:'row'}}>
+   <View style={{display:'flex',width:'100%',height:300}}>
      <View style={styles.Mbtn}>
               <Button 
               title="Edit"
               onPress={() => {
-                console.log('save')
+                setShowModal(!showModal);
               }}
             />
             </View>
@@ -376,17 +483,42 @@ setQColum(v);
               }}
             />
             </View>
+            <View style={styles.Mbtn}>
+              <Button style={{width:20}}
+              title="Show Saved qery"
+              onPress={() => {
+               GetqueryFromDatabase()
+              }}
+            />
             </View>
-            <Button onPress={() => {
-setShowModal(!showModal);
-props.navigation.navigate("ExQuery",{
- userID: 1,
- q:query
-})
-}} title="ExQuery"
-color="#fb5b5a"
-accessibilityLabel="Learn more about this purple button"/> 
-          </View>
+            <View>
+          {
+            getSavedQuery.length>=1 ?
+            getSavedQuery.map((data,index)=>{
+              return(
+                <View key={index} style={{height:30,display:'flex',borderWidth:1}}>
+                  <TouchableOpacity
+                  onPress={()=>{
+                    setShowModal(!showModal);
+                props.navigation.push('ExQuery',{
+                  Query:data.Query,
+                  database:data.DatabaseName
+                })                            
+                  }}
+                  >
+                  <Text>
+                    {data.Query_Name}
+                  </Text>
+                  </TouchableOpacity>
+                  </View>
+              )
+            })
+
+            :null
+          }
+        </View>
+            </View>
+            </View>
           <Button
               title="Click To Close Modal"
               onPress={() => {
@@ -401,19 +533,26 @@ accessibilityLabel="Learn more about this purple button"/>
         </Modal>
         
 
-<Modal
+        <Modal
           animationType={'slide'}
           transparent={false}
           visible={inputModel}
           onRequestClose={() => {
             console.log('Modal has been closed.');
           }}>
-<View>
+<View style={{height:400,backgroundColor:'blue',justifyContent:'center'}}>
+
+  <TextInput 
+  style={{height:40,backgroundColor:'#fff',marginBottom:40,width:'80%',marginLeft:30}}
+  placeholder="Enter query Name"
+  value={Query_Name}
+  onChangeText={(Query_Name)=>setQuery_Name(Query_Name)}
+  />
 <Button
               title="Click To Close Modal"
               onPress={() => {
+                PostSavedQuery()
                 setInputModel(!inputModel);
-                setResult('')
                 
               }}
             />
@@ -486,7 +625,8 @@ width:'90%',
       marginTop: 10,
     },
     Mbtn:{
-      width:150,marginTop:100,marginRight:10,
+      width:150,marginTop:10,marginRight:10,
+     
     }
   })
   export default QueryBuilder;
