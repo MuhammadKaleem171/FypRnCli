@@ -154,9 +154,21 @@ setQColum(v);
  }
 
  const ShowQuery=()=>{
+  let query
    if(QueryType==='Select'){
-    let query= QueryType +' '+QColum+' '+'from'+' '+SelectedTable+' where '+WhereColumn+' '+condition+' '+conditionValue
-    console.log(query)
+     if(isJoin){
+       query=QueryType+' '+QColum+' '+' from '+SelectedTable+' INNER JOIN '+ SelectedTable2+' '+' on '+SelectedTable+'.'+OnJoinColum+ ' = '+SelectedTable2+'.'+OnJoinColum;
+       console.log(query)
+      }
+     if(!isJoin){
+       if(!isEnabled){
+        query= QueryType +' '+QColum+' '+'from'+' '+SelectedTable
+       }
+       if(isEnabled){
+     query= QueryType +' '+QColum+' '+'from'+' '+SelectedTable+' where '+WhereColumn+' '+condition+' '+conditionValue
+       }
+     console.log(query)
+     }
     setQuery(query)
    }
    else if(QueryType=='insert'){
