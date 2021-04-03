@@ -15,7 +15,7 @@ const ExecuteQuery=(props)=>{
         const databaseName=props.route.params.database
         const query=props.route.params.Query
         console.log('eeeeeeeeeeeeeeeeeee',databaseName)
-        fetch(`http://192.168.10.2/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
+        fetch(`http://192.168.1.16/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
         .then(res=>res.json())
         .then((data)=>{
           console.log(data)

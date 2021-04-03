@@ -56,9 +56,11 @@ import {
     const [getSavedQuery,setGetSavedQuery]=useState([])
     const [Query_Name,setQuery_Name]=useState()
 
+    const [OnJoinColum,setOnJoinColum]=useState()
+
 
     useEffect(() => {
-      fetch('http://192.168.10.2/backend/api/values/GetDatabase')
+      fetch('http://192.168.1.16/backend/api/values/GetDatabase')
       .then(res=>res.json())
       .then((data)=>{
           setDatabase(data)
@@ -69,7 +71,7 @@ import {
     
    const GetTabeName=(item)=>{
      const database=item.itemValue
-    fetch(`http://192.168.10.2/backend/api/values/gettable?TableName=${database}`)
+    fetch(`http://192.168.1.16/backend/api/values/gettable?TableName=${database}`)
     .then(res=>res.json())
     .then((data)=>{
         console.log(data)
@@ -81,7 +83,7 @@ import {
 const GetColumnNames=(da)=>{
 console.log('table name name',da.itemValue)
 const data=da.itemValue
-      fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+      fetch(`http://192.168.1.16/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
 .then(res=>res.json())
 .then((data)=>{
     //console.log(data)
@@ -92,7 +94,7 @@ const data=da.itemValue
     const GetColumnNames2=(da)=>{
       console.log('table name name',da.itemValue)
       const data=da.itemValue
-            fetch(`http://192.168.10.2/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+            fetch(`http://192.168.1.16/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
       .then(res=>res.json())
       .then((data)=>{
          // console.log(data)
@@ -102,15 +104,44 @@ const data=da.itemValue
 
  const co=()=>{
   let a='';
+  let joinColum='';
+
+  if(!isJoin){
   ColumnName.forEach(element => {
+    if(element.isChecked==true){
+      
+        console.log(element.id,element.column)
+         a=a+element.column+','
+      
+    }
+    
+});
+  }
+  if(isJoin){
+    console.log('oooooooooooooo',OnJoinColum)
+    ColumnName.forEach(element => {
       if(element.isChecked==true){
         
           console.log(element.id,element.column)
-           a=a+element.column+','
+           a=a+SelectedTable+'.'+element.column+','
         
       }
       
   });
+    ColumnName2.forEach(element => {
+      if(element.isChecked==true){
+        
+          console.log(element.id,element.column)
+           joinColum=joinColum+SelectedTable2+'.'+element.column+','
+           
+      }
+      console.log('ssssssss',joinColum)
+     
+  });
+  a=a+joinColum
+  }
+
+ 
   console.log(a)
   console.log(a.length)
   let v=''
@@ -161,7 +192,7 @@ setQColum(v);
 //  }
  const GetqueryFromDatabase=()=>{
    console.log('clicked')
-   fetch(`http://192.168.10.2/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+   fetch(`http://192.168.1.16/backend/api/values/SaveQuery?UserName=17-arid-3460`)
    .then(res=>res.json())
    .then((response)=>{
      console.log(response)
@@ -172,7 +203,7 @@ setQColum(v);
  const PostSavedQuery=()=>{
    console.log('post')
 
-  fetch('http://192.168.10.2/backend/api/Values/PostQuery', {
+  fetch('http://192.168.1.16/backend/api/Values/PostQuery', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -337,7 +368,7 @@ setQColum(v);
           <CheckBox 
           value={data.isChecked}
         onValueChange={e=>{
-          setCoulumnName(ColumnName2.map(d=>{
+          setCoulumnName2(ColumnName2.map(d=>{
             if(d.id==data.id){
               d.isChecked=!data.isChecked
             }
@@ -352,6 +383,29 @@ setQColum(v);
     })
   }
   </View>
+  <View>
+    <View>
+    <Text style={styles.heading1}>Select Colum  for On Join </Text>
+    </View>
+    <Picker style={styles.dataBasePiker}
+ dropdownIconColor="#21130d" 
+ mode="dropdown"
+  selectedValue={OnJoinColum}
+  onValueChange={((itemValue, itemIndex)=>{
+    setOnJoinColum(itemValue)
+    console.log('onnnJoin',OnJoinColum)
+  }
+  )
+  }
+  >
+    {
+      ColumnName2.map(data=>{
+        return(  <Picker.Item key={data.id} label={data.column} value={data.column} />)
+      })
+    }    
+    </Picker>
+
+    </View>
 
           </View>
           :null
