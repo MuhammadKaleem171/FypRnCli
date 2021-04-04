@@ -15,17 +15,11 @@ import {
   import CheckBox from '@react-native-community/checkbox'
   import {Picker} from '@react-native-picker/picker'
 
-  const lisy=[{
-    Query:"select top 10 rows"
+  const serverList=[{
+    ServerName:"MALIKKALEEM\SQLEXPRESS01"
   },
   {
-    query:'Max'
-  },
-  {
-    Query:' select Min'
-  }
-  ,{
-    Query:'select avg'
+    ServerName:'MALIKKALEEM\SQLEXPRESS01'
   }
   ]
   const QueryBuilder=(props)=>{
@@ -60,7 +54,7 @@ import {
 
 
     useEffect(() => {
-      fetch('http://192.168.1.16/backend/api/values/GetDatabase')
+      fetch('http://192.168.10.10/backend/api/values/GetDatabase')
       .then(res=>res.json())
       .then((data)=>{
           setDatabase(data)
@@ -71,7 +65,7 @@ import {
     
    const GetTabeName=(item)=>{
      const database=item.itemValue
-    fetch(`http://192.168.1.16/backend/api/values/gettable?TableName=${database}`)
+    fetch(`http://192.168.10.10/backend/api/values/gettable?TableName=${database}`)
     .then(res=>res.json())
     .then((data)=>{
         console.log(data)
@@ -83,7 +77,7 @@ import {
 const GetColumnNames=(da)=>{
 console.log('table name name',da.itemValue)
 const data=da.itemValue
-      fetch(`http://192.168.1.16/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+      fetch(`http://192.168.10.10/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
 .then(res=>res.json())
 .then((data)=>{
     //console.log(data)
@@ -94,7 +88,7 @@ const data=da.itemValue
     const GetColumnNames2=(da)=>{
       console.log('table name name',da.itemValue)
       const data=da.itemValue
-            fetch(`http://192.168.1.16/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+            fetch(`http://192.168.10.10/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
       .then(res=>res.json())
       .then((data)=>{
          // console.log(data)
@@ -204,7 +198,7 @@ setQColum(v);
 //  }
  const GetqueryFromDatabase=()=>{
    console.log('clicked')
-   fetch(`http://192.168.1.16/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+   fetch(`http://192.168.10.10/backend/api/values/SaveQuery?UserName=17-arid-3460`)
    .then(res=>res.json())
    .then((response)=>{
      console.log(response)
@@ -215,7 +209,7 @@ setQColum(v);
  const PostSavedQuery=()=>{
    console.log('post')
 
-  fetch('http://192.168.1.16/backend/api/Values/PostQuery', {
+  fetch('http://192.168.10.10/backend/api/Values/PostQuery', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -263,9 +257,26 @@ setQColum(v);
         <View style={{flex:1,backgroundColor:'#fff'}}>     
           <ScrollView style={{position:'relative'}}>
             <View style={styles.DatabaseView}>
+            <Text style={styles.heading1}>Select Server Name</Text>
+            <Picker style={styles.dataBasePiker}
+             dropdownIconColor="#21130d" 
+             mode="dropdown"
+            selectedValue={"MALIKKALEEM\SQLEXPRESS01"}
+            >
+            {
+              serverList.map((data,i)=>{
+                return(
+                  <Picker.Item key={i} label={data.ServerName} value={data.ServerName}/>
+                )
+              })
+            }
+
+            </Picker>
+            
+            </View>
+            <View style={styles.DatabaseView}>
             <Text style={styles.heading1}>Select the Database</Text>
           <Picker style={styles.dataBasePiker}
-      
       dropdownIconColor="#21130d" 
       mode="dropdown"
   selectedValue={SelectedDatabase}
@@ -310,6 +321,7 @@ setQColum(v);
 </View>
 
 <View > 
+<Text style={styles.heading1}>Select column's </Text>
   {
     ColumnName.length>=1?
     ColumnName.map(data=>{
@@ -441,6 +453,9 @@ setQColum(v);
       <Picker.Item label="Select" value="Select" style={{textAlign:'center'}}/>
       <Picker.Item label="Insert" value="insert"/>
     </Picker>
+    <View>
+    <Text style={styles.heading1}> Selected Column  </Text>
+      </View>
     <TextInput 
     value={QColum}
     placeholder="Selected Column "
@@ -620,14 +635,14 @@ setQColum(v);
         </View>
             </View>
             </View>
-          <Button
+           <Button
               title="Click To Close Modal"
               onPress={() => {
                 setShowModal(!showModal);
                 console.log(showModal)
                 setResult('')
               }}
-            />
+            /> 
 
 
            
@@ -641,8 +656,8 @@ setQColum(v);
           onRequestClose={() => {
             console.log('Modal has been closed.');
           }}>
-<View style={{height:400,backgroundColor:'blue',justifyContent:'center'}}>
-
+<View style={{height:400,justifyContent:'center'}}>
+<Text style={{fontSize:18,marginLeft:25}}>Enter Query Name </Text>
   <TextInput 
   style={{height:40,backgroundColor:'#fff',marginBottom:40,width:'80%',marginLeft:30}}
   placeholder="Enter query Name"
@@ -650,7 +665,7 @@ setQColum(v);
   onChangeText={(Query_Name)=>setQuery_Name(Query_Name)}
   />
 <Button
-              title="Click To Close Modal"
+              title="Save Query"
               onPress={() => {
                 PostSavedQuery()
                 setInputModel(!inputModel);
