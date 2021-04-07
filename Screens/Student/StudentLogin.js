@@ -86,9 +86,9 @@ const StudentLogin=({navigation})=>{
       </ScrollView>
       </KeyboardAvoidingView >
     </View>
-    {/* <Button onPress={()=>navigation.navigate('query')} title="Learn More"
+    <Button onPress={()=>navigation.navigate('Labs')} title="Learn More"
   color="#841584"
-  accessibilityLabel="Learn more about this purple button"/>  */}
+  accessibilityLabel="Learn more about this purple button"/>  
     </View>
     )
 }
