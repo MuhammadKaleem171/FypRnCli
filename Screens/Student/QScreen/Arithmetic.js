@@ -57,6 +57,8 @@ import {
     const [Query_Name,setQuery_Name]=useState()
 
     const [ArithmeticEx,setArithmeticEx]=useState('')
+    const [AliasName,setAliasName]=useState('')
+    const [ArithmeticValue,setArithmeticValue]=useState()
 
 
 
@@ -115,7 +117,21 @@ import {
     }
     
    const ShowQuery=()=>{
-    let query=QueryType +' '+QColum+' '+'from'+' '+SelectedTable
+    let query;
+       if(ArithmeticEx==='+'){
+        query=QueryType +' '+QColum+' '+'+' +' '+ArithmeticValue+' As ' + '  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
+       }
+       else if(ArithmeticEx==='-'){
+        query=QueryType +' '+QColum+' '+'-' +'  '+' '+ArithmeticValue+' As '+'  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
+       }
+       else if(ArithmeticEx==='*'){
+        query=QueryType +' '+QColum+ ' '+'*' +'  '+ArithmeticValue+' As '+'  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
+       }
+       else if(ArithmeticEx==='/'){
+        query=QueryType +' '+QColum+' '+'/'+' '+ArithmeticValue+' As '+'  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
+       }
+    
+    console.log(ArithmeticEx)
     setQuery(query)
      
    }
@@ -202,7 +218,8 @@ import {
   }>
     {
       Database.map(data=>{
-        return(  <Picker.Item key={data} label={data} value={data} />)
+        return(  
+            <Picker.Item key={data} label={data} value={data} />)
       })
     }
 
@@ -290,11 +307,30 @@ import {
 
 <View>
 <View>
+      <Text style={styles.heading1}>  Arithmetic Value  </Text>
+</View>
+<View>
+    <TextInput  
+    value={ArithmeticValue}
+    placeholder="Enter Value"
+    onChangeText={ArithmeticValue=>setArithmeticValue(ArithmeticValue)}
+    style={{borderWidth:1,width:'80%'}}
+
+
+    />
+
+</View>
+
+<View>
       <Text style={styles.heading1}>  Alias  </Text>
 </View>
 <View>
     <TextInput  
+    value={AliasName}
     placeholder="[Alias Name]"
+    onChangeText={AliasName=>setAliasName(AliasName)}
+    style={{borderWidth:1}}
+
     />
 
 </View>
@@ -400,7 +436,7 @@ import {
               onPress={() => {
                 setShowModal(!showModal);
                 console.log(showModal)
-                setResult('')
+               
               }}
             /> 
 
