@@ -57,6 +57,15 @@ import {
       return (
           <View style={{flex:1,}}>
               <ScrollView>
+              <View  style={{flexDirection:'row',marginTop:10,justifyContent:'center'}}>
+              <View style={styles.labCount}>
+              <Text style={styles.txtView1}>Sr . </Text>
+              </View>
+              <View  style={styles.LabView}>
+                 
+              <Text style={styles.txtView1} >Learning Objective</Text>
+              </View>
+              </View>
                   {
                       LessonList.map((data,index)=>{
                 return(     
@@ -74,9 +83,6 @@ import {
                       })
   }
               </ScrollView>
-              <TouchableOpacity onPress={()=>console.log('dddd')}>
-              <Text style={styles.txtView}>hhhhh</Text>
-              </TouchableOpacity>
 
           </View>
       )
@@ -87,16 +93,22 @@ import {
 labCount:{
 width:'20%',
 borderWidth:0.5,
-height:60,
+height:70,
+paddingTop:10,
 },
 LabView:{
     width:'70%',
-    borderWidth:0.5,height:60,
+    borderWidth:0.5,height:70,
+},
+txtView1:{
+    textAlign:'center',
+    fontSize:22,
+    padding:15
 },
 txtView:{
-    textAlign:'center',
-    fontSize:18,
-    padding:10
+  textAlign:'center',
+  fontSize:18,
+  padding:10
 }
   })
   
