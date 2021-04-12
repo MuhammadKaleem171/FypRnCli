@@ -66,7 +66,7 @@ const Concatenation=(props)=>{
     // -----------------Function ----------
 
     useEffect(() => {
-        fetch('http://192.168.10.7/backend/api/values/GetDatabase')
+        fetch('http://192.168.1.18/backend/api/values/GetDatabase')
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -78,7 +78,7 @@ const Concatenation=(props)=>{
      const GetTabeName=(item)=>{
          if(SelectedDatabase!==' '){
        const database=item.itemValue
-      fetch(`http://192.168.10.7/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://192.168.1.18/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -92,7 +92,7 @@ const Concatenation=(props)=>{
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.10.7/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://192.168.1.18/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)
@@ -125,7 +125,7 @@ const Concatenation=(props)=>{
      // query='select '+' '+FColumn+ `'+ '`+`' '`+' +' +secColumn+' '+' As '+' '+AliasName+' '+'from '+SelectedTable
     
 
-      let q='Select' +' '+FColumn+ ' '+'+' +'  '+secColumn+' As '+'  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
+      let q='Select' +' '+FColumn+ ' '+'%2B' +'  '+secColumn+' As '+'  '+'['+AliasName+']'+' '+'from'+' '+SelectedTable
     console.log(q)
     setQuery(q)
      
@@ -133,7 +133,7 @@ const Concatenation=(props)=>{
   
    const GetqueryFromDatabase=()=>{
      console.log('clicked')
-     fetch(`http://192.168.10.7/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+     fetch(`http://192.168.1.18/backend/api/values/SaveQuery?UserName=17-arid-3460`)
      .then(res=>res.json())
      .then((response)=>{
        console.log(response)
@@ -144,7 +144,7 @@ const Concatenation=(props)=>{
    const PostSavedQuery=()=>{
      console.log('post')
   
-    fetch('http://192.168.10.7/backend/api/Values/PostQuery', {
+    fetch('http://192.168.1.18/backend/api/Values/PostQuery', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
