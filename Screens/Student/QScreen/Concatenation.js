@@ -66,7 +66,7 @@ const Concatenation=(props)=>{
     // -----------------Function ----------
 
     useEffect(() => {
-        fetch('http://192.168.1.18/backend/api/values/GetDatabase')
+        fetch('http://192.168.10.5/backend/api/values/GetDatabase')
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -78,7 +78,7 @@ const Concatenation=(props)=>{
      const GetTabeName=(item)=>{
          if(SelectedDatabase!==' '){
        const database=item.itemValue
-      fetch(`http://192.168.1.18/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://192.168.10.5/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -92,7 +92,7 @@ const Concatenation=(props)=>{
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.1.18/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://192.168.10.5/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)
@@ -133,7 +133,7 @@ const Concatenation=(props)=>{
   
    const GetqueryFromDatabase=()=>{
      console.log('clicked')
-     fetch(`http://192.168.1.18/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+     fetch(`http://192.168.10.5/backend/api/values/SaveQuery?UserName=17-arid-3460`)
      .then(res=>res.json())
      .then((response)=>{
        console.log(response)
@@ -144,7 +144,7 @@ const Concatenation=(props)=>{
    const PostSavedQuery=()=>{
      console.log('post')
   
-    fetch('http://192.168.1.18/backend/api/Values/PostQuery', {
+    fetch('http://192.168.10.5/backend/api/Values/PostQuery', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -179,7 +179,20 @@ const Concatenation=(props)=>{
               Select [CoulumName  ] + ’ ‘ +[ColumnName] as [ Alias Name] from Table Name;
               </Text>
               </View>
-
+  {/* <---------------------------Examples---------------------->              */}
+  <View>
+                <View>
+                  <Text style={styles.syntax}> Examples</Text>
+                </View>
+                <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Concation.jpg")} resizeMode='contain' style={{width:'90%',height:250}} />
+                  </View>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Concation2.jpg")} resizeMode='contain' style={{width:'90%',height:250}} />
+                  </View>
+                </View>
+              </View>
               <View style={styles.DatabaseView}>
             <Text style={styles.heading1}>Select Server Name</Text>
             <Picker style={styles.dataBasePiker}
