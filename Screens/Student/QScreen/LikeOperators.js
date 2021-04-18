@@ -23,7 +23,7 @@ import {
     ServerName:'MALIKKALEEM\SQLEXPRESS01'
   }
   ]
-  const ComparisonOperators=(props)=>{
+  const LIKEOperator=(props)=>{
 
 
 
@@ -145,15 +145,17 @@ import {
         <ScrollView style={{position:'relative'}}>
             <View style={{marginTop:10}}>
               <Text style={styles.intro}>
-              A comparison (or relational) operator is a mathematical symbol which is used to compare two values.
+              There are two wildcards used in conjunction with the LIKE operator:
+     % - The percent sign represents zero, one, or multiple characters
+     _ - The underscore represents a single character
               {"\n"}
               </Text>
               
               <Text style={styles.syntax}>
-                  Syntax of Select Statement
+              SQL LIKE Syntax
               </Text>
               <Text>
-              SELECT column_name(s) FROM table_name
+              SELECT column_name(s) FROM table_name WHERE column_name LIKE pattern
               </Text>
               </View>
  {/* <---------------------------Examples---------------------->              */}
@@ -301,12 +303,9 @@ import {
     onValueChange={(item,index)=>{
       setComparisonOperator(item)
     }}>
-      <Picker.Item label=">=" value=">=" />
-      <Picker.Item label="<=" value="<="/>
-      <Picker.Item label="<>" value="<>"/>
-      <Picker.Item label=">" value=">" />
-      <Picker.Item label="<" value="<"/>
-      <Picker.Item label="=" value="="/>
+      <Picker.Item label=" Like " value="like" />
+      <Picker.Item label=" Not Like " value="not like"/>
+    
     </Picker>
       </View>
 
@@ -317,7 +316,7 @@ import {
       </View>
       <View style={styles.inputView}>
           <TextInput 
-          placeholder="Enter value "
+          placeholder="Enter Pattern  "
           value={WValue}
           onChangeText={(WValue)=>setWValue(WValue)}
           style={styles.TextInput}
@@ -562,4 +561,4 @@ import {
 
   })
 
-  export default ComparisonOperators;
+  export default LIKEOperator;

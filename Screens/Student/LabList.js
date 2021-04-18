@@ -54,10 +54,14 @@ import {
   },
  
   {
-      Content:'SQL Joins',
+      Content:'Comparison Operators (LIKE, NOT LIKE)',
       id:8,
-      screen:'SQlJoins'
-  }
+      screen:'LIKEOperator'
+  },{
+    Content:'Aggregate function (min, max, avg, count, sum)',
+    id:9,
+    screen:'Agg'
+  },
 ]
   const LabList=(props)=>{
       console.log(props)
@@ -75,6 +79,7 @@ import {
               </View>
                   {
                       LessonList.map((data,index)=>{
+                        console.log(data.screen)
                 return(     
               <View key={index} style={{flexDirection:'row',marginTop:10,justifyContent:'center'}}>
               <View style={styles.labCount}>

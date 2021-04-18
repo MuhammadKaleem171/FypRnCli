@@ -32,6 +32,8 @@ import OrderBy from './Screens/Student/QScreen/OrderBy';
 import Logical_operators from './Screens/Student/QScreen/Logical_operators';
 import GroupBy from './Screens/Student/QScreen/GroupBy';
 import ComparisonOperators from './Screens/Student/QScreen/Comparison_Operators';
+import LIKEOperator from './Screens/Student/QScreen/LikeOperators';
+import AggregateFunction from './Screens/Student/QScreen/AggregateFunction';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
@@ -48,6 +50,8 @@ const My=()=>{
       <Stack1.Screen name="Logical_operators" component={Logical_operators}/>
       <Stack1.Screen name="GroupBy" component={GroupBy}/>
       <Stack1.Screen name="ComparisonOperators" component={ComparisonOperators}/>
+      <Stack1.Screen name="LIKEOperator" component={LIKEOperator}/>
+      <Stack1.Screen name= "Agg"  component={AggregateFunction}/>
 
       
       <Stack1.Screen name="query" component={QueryBuilder}/>
