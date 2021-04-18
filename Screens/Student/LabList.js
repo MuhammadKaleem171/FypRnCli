@@ -39,16 +39,23 @@ import {
     Content:'Logical operators (AND, OR, NOT)',
     id:5,
     screen:'Logical_operators'
+  },   {
+    Content:'Comparison Operators ',
+    id:6,
+    screen:'ComparisonOperators'
+
   },
+  
   {
     Content:'Group by ',
-    id:6,
+    id:7,
     screen:'GroupBy'
 
   },
+ 
   {
       Content:'SQL Joins',
-      id:7,
+      id:8,
       screen:'SQlJoins'
   }
 ]
