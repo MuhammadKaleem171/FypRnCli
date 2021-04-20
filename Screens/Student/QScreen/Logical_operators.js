@@ -157,13 +157,13 @@ const Logical_operators=(props)=>{
                 </View>
                 <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select1.jpg")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Logical1.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select2.jpg")} resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Logical2.png")} resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select3.jpg")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                    <Image source={require("../../../assets/Examples/Logical3.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
                   </View>
                 </View>
               </View>

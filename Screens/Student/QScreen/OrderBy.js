@@ -179,14 +179,12 @@ setQColum(v);
                 </View>
                 <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select1.jpg")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Order1.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select2.jpg")} resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Order2.png")} resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
-                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select3.jpg")} resizeMode='contain' style={{width:'100%',height:250}}/>
-                  </View>
+                  
                 </View>
               </View>
 {/* <--------------------------------------------------Where clause -----------------------> */}
@@ -210,14 +208,12 @@ setQColum(v);
                 </View>
                 <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select1.jpg")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Where1.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select2.jpg")} resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Where2.png")} resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
-                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select3.jpg")} resizeMode='contain' style={{width:'100%',height:250}}/>
-                  </View>
+                 
                 </View>
               </View>
 

@@ -161,18 +161,20 @@ const [Agtype,setAgtype]=useState('')
         <ScrollView style={{position:'relative'}}>
             <View style={{marginTop:10}}>
               <Text style={styles.intro}>
-              The SELECT statement is used to select data 
-              from a database.
+              SQL aggregate functions return a single value, calculated from values in a column.
               {"\n"}
               </Text>
               
               <Text style={styles.syntax}>
-                  Syntax of Select Statement
+              SQL Aggregate function  Syntax
               </Text>
               <Text>
-              SELECT column_name(s) FROM table_name
+              SELECT Aggregate function (column_name) FROM table_name
               </Text>
               </View>
+              <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Ag1.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                  </View>
  {/* <---------------------------Examples---------------------->              */}
               <View>
                 <View>
@@ -180,13 +182,20 @@ const [Agtype,setAgtype]=useState('')
                 </View>
                 <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select1.jpg")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Ag2.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select2.jpg")} resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Ag3.png")} resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select3.jpg")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                    <Image source={require("../../../assets/Examples/Ag4.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
+
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Ag5.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Ag6.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
                   </View>
                 </View>
               </View>

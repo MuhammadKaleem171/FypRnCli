@@ -150,12 +150,15 @@ import {
               </Text>
               
               <Text style={styles.syntax}>
-                  Syntax of Select Statement
+                  Syntax of Comparison operators
               </Text>
               <Text>
-              SELECT column_name(s) FROM table_name
+              SELECT column_name(s) FROM table_name where Comparison operators condition
               </Text>
               </View>
+              <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Comparison1.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
  {/* <---------------------------Examples---------------------->              */}
               <View>
                 <View>
@@ -163,13 +166,16 @@ import {
                 </View>
                 <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select1.jpg")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Comparison2.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select2.jpg")} resizeMode='contain' style={{width:'100%',height:250}} />
+                    <Image source={require("../../../assets/Examples/Comparison3.png")} resizeMode='contain' style={{width:'100%',height:250}} />
                   </View>
                   <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
-                    <Image source={require("../../../assets/Examples/Select3.jpg")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                    <Image source={require("../../../assets/Examples/Comparison4.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Comparison5.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
                   </View>
                 </View>
               </View>
