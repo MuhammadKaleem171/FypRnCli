@@ -37,7 +37,6 @@ import {
 
     }])
     const[SelectedColmn,setSelectedColumn]=useState('')
-    const [QueryType,setQueryType]=useState('Select')
     const [QColum,setQColum]=useState('')
     const [showModal, setShowModal] = useState(false);
     const [inputModel,setInputModel]=useState(false);
@@ -45,12 +44,18 @@ import {
     const [getSavedQuery,setGetSavedQuery]=useState([])
     const [Query_Name,setQuery_Name]=useState()
 
-
+// <---------------------------------------------- this screen------------------->
+const [Agtype,setAgtype]=useState('')
     const [Alias,setAlias]=useState(false);
+    const [AliasName,setAliasName]=useState('')
+    const[isWhere,setIswhere]=useState(false)
+    const [whereValue,setWhereValue]=useState('')
+    const[whereColumn,setWhereColumn]=useState('')
+    const[ComparisonOperator,setComparisonOperator]=useState('')
     // -----------------Function ----------
 
     useEffect(() => {
-        fetch('http://192.168.10.8/backend/api/values/GetDatabase')
+        fetch('http://192.168.10.5/backend/api/values/GetDatabase')
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -61,7 +66,7 @@ import {
       
      const GetTabeName=(item)=>{
        const database=item.itemValue
-      fetch(`http://192.168.10.8/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://192.168.10.5/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -73,7 +78,7 @@ import {
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.10.8/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://192.168.10.5/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)
@@ -100,16 +105,25 @@ import {
   setQColum(v);
 
     }
-    
+   
    const ShowQuery=()=>{
-    let query=QueryType +' '+QColum+' '+'from'+' '+SelectedTable
+    let query="";
+     if(Alias){
+      query='Select '+' '+Agtype+'( '+SelectedColmn+' )' +' As ' + '  '+'['+AliasName+']'+'from'+' '+SelectedTable
+      if(isWhere){
+        query='Select '+' '+Agtype+'( '+SelectedColmn+' )' +' As ' + '  '+'['+AliasName+']'+'from'+' '+SelectedTable+' '+'Where '+whereColumn+' '+ComparisonOperator+' '+whereValue
+      }
+     }
+     if(!Alias){
+     query='Select '+' '+Agtype+'( '+SelectedColmn+' )'+' '+'from'+' '+SelectedTable
+     }
     setQuery(query)
      
    }
   
    const GetqueryFromDatabase=()=>{
      console.log('clicked')
-     fetch(`http://192.168.10.8/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+     fetch(`http://192.168.10.5/backend/api/values/SaveQuery?UserName=17-arid-3460`)
      .then(res=>res.json())
      .then((response)=>{
        console.log(response)
@@ -120,7 +134,7 @@ import {
    const PostSavedQuery=()=>{
      console.log('post')
   
-    fetch('http://192.168.10.8/backend/api/Values/PostQuery', {
+    fetch('http://192.168.10.5/backend/api/Values/PostQuery', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -140,6 +154,7 @@ import {
     
    }
    const Als = () => setAlias(previousState => !previousState);
+   const isWhereCond = () => setIswhere(previousState => !previousState);
 // <---------------------------------------------------Function end------------------------------------------->
       return(
         <View style={{flex:1,backgroundColor:'#fff'}}>     
@@ -241,6 +256,25 @@ import {
  
 </Picker>
 </View>
+<View>
+      <View>
+          <Text style={styles.heading1}>Select Aggregate Function</Text>
+      </View>
+      <View>
+      <Picker selectedValue={Agtype} 
+    style={styles.dataBasePiker}
+    onValueChange={(item,index)=>{
+      setAgtype(item)
+    }}>
+      <Picker.Item label=" AVG() " value="Avg" />
+      <Picker.Item label=" Count() " value="Count"/>
+      <Picker.Item label=" Max() " value="Max"/>
+      <Picker.Item label=" MiN()" value="Min"/>
+      <Picker.Item label=" Sum()" value="Sum"/>
+    </Picker>
+      </View>
+
+  </View>
 
 <View > 
 <Text style={styles.heading1}>Select column for Aggregate </Text>
@@ -249,7 +283,7 @@ import {
           style={styles.dataBasePiker}
           dropdownIconColor="#21130d" 
           mode="dropdown"
-          selectedValue={setSelectedColumn}
+          selectedValue={SelectedColmn}
           onValueChange={(item)=>{
               setSelectedColumn(item)
               console.log('clicked',item)
@@ -277,6 +311,104 @@ import {
       <View style={{marginLeft:10}} >
       <Text style={{fontSize:18,color:'black'}}> Alias </Text>
       </View>
+      </View>
+      <View>
+        {Alias?
+        <View>
+<View>
+      <Text style={styles.heading1}>  Alias  </Text>
+</View>
+<View>
+    <TextInput  
+    value={AliasName}
+    placeholder="[ Alias Name ]"
+    onChangeText={AliasName=>setAliasName(AliasName)}
+    style={{borderWidth:1}}
+
+    />
+</View>
+        </View>
+        :null
+        }
+      </View>
+      <View>
+      <View  style={{display:'flex',flexDirection:'row',height:60,marginLeft:10}}>
+    <View>
+    <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={Alias? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={isWhereCond}
+        value={isWhere}
+      />
+      </View>
+      <View style={{marginLeft:10}} >
+      <Text style={{fontSize:18,color:'black'}}> where  </Text>
+      </View>
+      </View>
+      </View>
+
+      <View>
+        {isWhere?
+        <View>
+          <View > 
+<Text style={styles.heading1}>Select column for Where </Text>
+</View>
+<View>
+<Picker 
+          style={styles.dataBasePiker}
+          dropdownIconColor="#21130d" 
+          mode="dropdown"
+          selectedValue={whereColumn}
+          onValueChange={(item)=>{
+              setWhereColumn(item)
+              console.log('clicked',item)
+              co()
+            }}
+          >
+          {
+             ColumnName.map((data,index)=>{
+              return(  <Picker.Item  key={data.id} label={data.column} value={data.column}/>)
+              })
+          }
+          </Picker>
+          </View>
+
+          <View>
+      <View>
+          <Text style={styles.heading1}>Select Comparison Operator</Text>
+      </View>
+      <View>
+      <Picker selectedValue={ComparisonOperator} 
+    style={styles.dataBasePiker}
+    onValueChange={(item,index)=>{
+      setComparisonOperator(item)
+    }}>
+      <Picker.Item label=">=" value=">=" />
+      <Picker.Item label="<=" value="<="/>
+      <Picker.Item label="<>" value="<>"/>
+      <Picker.Item label=">" value=">" />
+      <Picker.Item label="<" value="<"/>
+      <Picker.Item label="=" value="="/>
+    </Picker>
+      </View>
+
+  </View> 
+<View>
+      <Text style={styles.heading1}>  Where Value  </Text>
+</View>
+<View>
+    <TextInput  
+    value={whereValue}
+    placeholder="  enter where  value"
+    onChangeText={whereValue=>setWhereValue(whereValue)}
+    style={{borderWidth:1}}
+
+    />
+</View>
+        </View>
+        :null
+        }
       </View>
   </View>
  
