@@ -240,6 +240,62 @@ setQColum(v);
 
         <View style={{flex:1,backgroundColor:'#fff'}}>     
           <ScrollView style={{position:'relative'}}>
+          <View  >
+            <Text style={styles.syntax} >    Introduction  </Text>
+            <View>
+              <Text style={styles.intro}>
+              SQL joins are used to query data from two or more tables, based on a relationship between certain columns in these tables
+              {"\n"}
+              </Text>
+              <Text style={styles.syntax}>
+              Different Types of SQL JOINs
+              {"\n"}
+              </Text>
+              
+              <Text >   1: (INNER) JOIN: Returns records that have matching values in both tables {"\n"}</Text>
+              
+               <Text>   2: LEFT (OUTER) JOIN: Return all records from the left table, and the matched records from the right table {"\n"} </Text>
+               <Text>   3:  RIGHT (OUTER) JOIN: Return all records from the right table, and the matched records from the left table {"\n"}</Text>
+               
+               <Text>   4: FULL (OUTER) JOIN: Return all records when there is a match in either left or right table
+              </Text>
+              </View>
+              <View style = {{ width:'99%', height:250,display:'flex',borderWidth:0.5,overflow:'hidden',marginBottom:10,marginTop:10}}>
+                    <Image source={require("../../../assets/Examples/TJoin.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                  </View>
+              
+              <Text style={styles.syntax}>
+              SQL Aggregate function  Syntax
+              </Text>
+              <Text style={{fontSize:17,marginTop:10}}>
+                      SELECT column_name(s) FROM table_name1 [Join Type] table_name2 ON table_name1.column_name=table_name2.column_name
+              </Text>
+              </View>
+               {/* <---------------------------Examples---------------------->              */}
+               <View>
+                <View>
+                  <Text style={styles.syntax}> Examples</Text>
+                </View>
+                <View style={{flex:1,flexDirection:'column',alignItems:'center'}}>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Join1.png")}  resizeMode='contain' style={{width:'100%',height:250}} />
+                  </View>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Join2.png")} resizeMode='contain' style={{width:'100%',height:250}} />
+                  </View>
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Join3.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
+
+                  <View style = {{ width:'100%', height:250,display:'flex',borderWidth:1,overflow:'hidden',marginBottom:10}}>
+                    <Image source={require("../../../assets/Examples/Join4.png")} resizeMode='contain' style={{width:'100%',height:250}}/>
+                  </View>
+                </View>
+                </View>
+                <View>
+            <Text style={styles.heading1}> Let's  Practice</Text>
+            </View>
+
             <View style={styles.DatabaseView}>
             <Text style={styles.heading1}>Select Server Name</Text>
             <Picker style={styles.dataBasePiker}
@@ -421,7 +477,6 @@ co();
   selectedValue={OnJoinColum}
   onValueChange={((itemValue, itemIndex)=>{
     setOnJoinColum(itemValue)
-    console.log('onnnJoin',OnJoinColum)
   }
   )
   }
@@ -608,6 +663,17 @@ co();
   }
 
   const styles=StyleSheet.create({
+    intro:{
+      fontSize:16,
+      fontFamily:'sans-serif',
+      padding:10,
+      lineHeight:20
+  },
+  syntax:{
+      fontSize:16,
+      color:'#fb5b5a',
+      fontWeight:'bold'
+  },
     DatabaseView:{
       flex:1,
       justifyContent:'center',

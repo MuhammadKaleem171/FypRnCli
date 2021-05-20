@@ -14,7 +14,7 @@ const  MainScreen=({navigation})=>{
   return(
     <View style={{flex:1,alignContent:'center',display:'flex',flexDirection:'column'}}>
       <View style={styles.icon}>
-<Image source={require('../assets/cloud-database.png')} style={{width:190,height:180,marginLeft:20}}/>
+<Image source={require('../assets/cloud-database.png')} style={{width:190,height:180,marginLeft:20,}}/>
       </View>
       <View style={{flex:3}}>
         <Text style={styles.heading}> BIIT Database Tutor with Assignmnet </Text>
@@ -42,7 +42,8 @@ borderColor:'#676d6e',
 borderRadius:128,
 justifyContent:'center',
 alignSelf:'center',
-overflow:'hidden'
+overflow:'hidden',
+shadowRadius:2,
   },
   heading:{
     fontSize:28,
