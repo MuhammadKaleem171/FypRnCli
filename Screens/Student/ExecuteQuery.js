@@ -15,7 +15,7 @@ const ExecuteQuery=(props)=>{
         const databaseName=props.route.params.database
         const query=props.route.params.Query
         console.log('eeeeeeeeeeeeeeeeeee',databaseName)
-        fetch(`http://192.168.10.5/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
+        fetch(`http://192.168.1.18/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
         .then(res=>res.json())
         .then((data)=>{
           console.log('cccccccccccccccccccccc',data)
@@ -48,8 +48,8 @@ const ExecuteQuery=(props)=>{
      <View style={{borderWidth:1,flexDirection:'row',marginTop:10}}>
        {
          d1.map((i,index)=>(
-           <View  key={index} style={{flexDirection:'row',display:'flex',marginRight:10}}>
-             <Text > {i}</Text>
+           <View  key={index} style={{flexDirection:'row',display:'flex',width:70,}}>
+             <Text style={{textAlign:'center'}} > {i}</Text>
            </View>
             
          )
@@ -77,8 +77,8 @@ accessibilityLabel="Learn more about this purple button"/>
             return(
               <View key={i} style={{flexDirection:'row'}} >{
               Object.keys(m).map((i,index)=>(
-              <View  key={index} style={{flexDirection:'row',display:'flex',width:90}}>
-                <Text >  {m[i]}</Text>
+              <View  key={index} style={{flexDirection:'row',display:'flex',width:70}}>
+                <Text style={{textAlign:'center',fontSize:12}} >  {m[i]}</Text>
               </View>
                
             )

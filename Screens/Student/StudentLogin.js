@@ -34,7 +34,7 @@ const StudentLogin=({navigation})=>{
 
    const Login=()=>{
   //  props.navigation.push('query')
-   fetch(`http://192.168.10.10/backend/api/values/login?userName=${userName}&password=${password}`, {
+   fetch(`http://192.168.43.193/backend/api/values/login?userName=${userName}&password=${password}`, {
      
    }).then(response => response.json()) 
    .then(json => {

@@ -62,6 +62,11 @@ import {
     id:9,
     screen:'Agg'
   },
+  {
+    Content:'Joins',
+    id:10,
+    screen:'Joins'
+  }
 ]
   const LabList=(props)=>{
       console.log(props)
