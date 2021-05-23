@@ -45,27 +45,37 @@ import {
     screen:'ComparisonOperators'
 
   },
+  {
+    Content:'Mid term ',
+    id:7,
+    screen:'MidTerm'
+
+  },
   
   {
     Content:'Group by ',
-    id:7,
+    id:8,
     screen:'GroupBy'
 
   },
  
   {
       Content:'Comparison Operators (LIKE, NOT LIKE)',
-      id:8,
+      id:9,
       screen:'LIKEOperator'
   },{
     Content:'Aggregate function (min, max, avg, count, sum)',
-    id:9,
+    id:10,
     screen:'Agg'
   },
   {
     Content:'Joins',
-    id:10,
+    id:11,
     screen:'Joins'
+  },{
+    Content:'Final',
+    id:12,
+    screen:'Final'
   }
 ]
   const LabList=(props)=>{

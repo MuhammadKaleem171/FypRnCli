@@ -14,7 +14,7 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  View,
+  View,Button,BackHandler
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
@@ -35,6 +35,9 @@ import ComparisonOperators from './Screens/Student/QScreen/Comparison_Operators'
 import LIKEOperator from './Screens/Student/QScreen/LikeOperators';
 import AggregateFunction from './Screens/Student/QScreen/AggregateFunction';
 import Joins from './Screens/Student/QScreen/Joins';
+import Final from './Screens/Student/QScreen/Final';
+import StartScreen from './Screens/StartScreen';
+import MidTerm from './Screens/Student/QScreen/MidTerm';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
@@ -42,6 +45,7 @@ const Stack1 = createStackNavigator();
 const My=()=>{
   return(
     <Stack1.Navigator >
+      
       <Stack1.Screen name="Student" component={StudentLogin}/>
       <Stack1.Screen name="Labs" component={LabList}/>
       <Stack1.Screen name="Select" component={Select_Clause} />
@@ -58,6 +62,8 @@ const My=()=>{
       
       <Stack1.Screen name="query" component={QueryBuilder}/>
       <Stack1.Screen name="ExQuery" component={ExecuteQuery}/>
+      <Stack1.Screen name="Final" component={Final}/>
+      <Stack1.Screen name="MidTerm" component={MidTerm}/>
     </Stack1.Navigator>
   )
 }
@@ -65,8 +71,15 @@ const My=()=>{
 const App =()=> {
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="MainScreen">
-      <Stack.Screen name="MainScreen" component={MainScreen}/> 
+    <Stack.Navigator initialRouteName="StartScreen">
+    <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="MainScreen" component={MainScreen} options={{headerRight: () => (
+            <Button
+              onPress={() => BackHandler.exitApp()}
+              title="  X  "
+              color="#fb5b5a"
+            />
+          )}}/> 
 
       <Stack.Screen  options={{headerShown: false}} name="Home" component={My}/>
       <Stack.Screen name="Teacher" component={TeacherLogIn}/>
