@@ -11,7 +11,7 @@ import {
  
 } from "react-native"; 
 
-export default TeacherLogIn =() =>{
+export default TeacherLogIn =({navigation}) =>{
   const [userName,setUserName]=useState('')  
   const [password,setPassword]=useState('')
     return(
@@ -47,6 +47,9 @@ export default TeacherLogIn =() =>{
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
       </KeyboardAvoidingView >
+      <Button onPress={()=>navigation.navigate('Toptions')} title="Learn More"
+  color="#841584"
+  accessibilityLabel="Learn more about this purple button"/>  
     </View>
 
     </View>

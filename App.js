@@ -38,9 +38,12 @@ import Joins from './Screens/Student/QScreen/Joins';
 import Final from './Screens/Student/QScreen/Final';
 import StartScreen from './Screens/StartScreen';
 import MidTerm from './Screens/Student/QScreen/MidTerm';
+import Toption from './Screens/Teacher/Toption';
+import UploadAssignment from './Screens/Teacher/UploadAssignment';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
+const T_Stack = createStackNavigator();
 
 const My=()=>{
   return(
@@ -68,6 +71,18 @@ const My=()=>{
   )
 }
 
+const TeacherStack=()=>{
+  return(
+ <T_Stack.Navigator>
+  
+  <T_Stack.Screen name="TeacherLogin" component={TeacherLogIn}/>
+  <T_Stack.Screen name ="Toptions" component={Toption}/>
+  <T_Stack.Screen name ="UploadAssignment" component={UploadAssignment}/>
+
+   </T_Stack.Navigator>
+  )
+}
+
 const App =()=> {
   return (
     <NavigationContainer>
@@ -82,7 +97,7 @@ const App =()=> {
           )}}/> 
 
       <Stack.Screen  options={{headerShown: false}} name="Home" component={My}/>
-      <Stack.Screen name="Teacher" component={TeacherLogIn}/>
+      <Stack.Screen name="Teacher" component={TeacherStack} options={{headerShown: false}} />
     </Stack.Navigator>
     </NavigationContainer>
 
