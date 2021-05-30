@@ -108,7 +108,6 @@ borderWidth:1
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fb5b5a",
-    
   },
   loginText:{
     fontSize:14,

@@ -14,7 +14,7 @@ const StartScreen =(props)=>{
             <Image source={require('../assets/cloud-database.png')} style={styles.imagestyle} />
             </View>
             <View>
-            <Text style={styles.heading}>Biit Database Tutor with Assignment</Text>
+                <Text style={styles.heading}>Biit Database Tutor with Assignment</Text>
             </View>
         </View>
     )

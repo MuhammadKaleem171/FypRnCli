@@ -17,7 +17,7 @@ const  MainScreen=({navigation})=>{
 <Image source={require('../assets/cloud-database.png')} style={{width:190,height:180,marginLeft:20,}}/>
       </View>
       <View style={{flex:3}}>
-      <Text style={styles.heading}> BIIT Database Tutor with Assignment </Text>
+        <Text style={styles.heading}> BIIT Database Tutor with Assignment </Text>
       </View>
       <View style={{flex:1}}>
         <Text style={{fontSize:24,marginLeft:20}}>  Login As </Text>

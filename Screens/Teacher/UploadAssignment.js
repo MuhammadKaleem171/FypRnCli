@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import PDFView from 'react-native-view-pdf'
 
 
+
 /**
 * @author
 * @function UploadAssignment
@@ -86,11 +87,11 @@ placeholder="Enter Assignment Title"
       </View>
       <View style={styles.FileView}>
           <Text style={{fontSize:24,color:'#fb5b5a',}}> Select File </Text>
-
-          <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
+          
+         <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
            <Text style={styles.btntext}>Select File</Text>
            </TouchableOpacity>
-
+       
           <View style={styles.preView}>
               <Text style={{fontSize:18}}>{
                   filedata!==null ?filedata.name :null
@@ -111,9 +112,10 @@ placeholder="Enter Assignment Title"
           <TouchableOpacity  style={styles.btn }onPress={()=>console.log('hello')}>
             <Text style={styles.btntext}> Upload Assignment </Text>
             </TouchableOpacity>
-            </View>
+          </View>
 
       </View>
+     
     
   </View>
   )
