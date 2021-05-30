@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MainScreen from './Screens/MainScreen'
 
 import StudentLogin from './Screens/Student/StudentLogin'
@@ -40,10 +41,12 @@ import StartScreen from './Screens/StartScreen';
 import MidTerm from './Screens/Student/QScreen/MidTerm';
 import Toption from './Screens/Teacher/Toption';
 import UploadAssignment from './Screens/Teacher/UploadAssignment';
+import CheckAssignment from './Screens/Teacher/CheckAssignment';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
 const T_Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const My=()=>{
   return(
@@ -70,7 +73,31 @@ const My=()=>{
     </Stack1.Navigator>
   )
 }
+const Tabnavi=()=>{
+  return(
+    <Tab.Navigator  tabBarOptions={{
+      activeTintColor: '#fff',
+      activeBackgroundColor:'#fb5b5a',
+      labelStyle:{
+        fontSize:14,
+        textAlign:"center",
+        alignSelf:'center',
+        justifyContent:'center'
+      },
+      labelPosition:'beside-icon',
 
+
+    }}>
+    <Tab.Screen name="UploadAssignment" component={UploadAssignment} options={{
+      tabBarLabel:"Upload Assignment", 
+
+    }} 
+
+    />
+     <Tab.Screen name="CheckAssignment" component={CheckAssignment}/>
+     </Tab.Navigator>
+  )
+}
 const TeacherStack=()=>{
   return(
  <T_Stack.Navigator>
@@ -78,6 +105,7 @@ const TeacherStack=()=>{
   <T_Stack.Screen name="TeacherLogin" component={TeacherLogIn}/>
   <T_Stack.Screen name ="Toptions" component={Toption}/>
   <T_Stack.Screen name ="UploadAssignment" component={UploadAssignment}/>
+  <T_Stack.Screen name ="TeacherScreen" component={Tabnavi}/>
 
    </T_Stack.Navigator>
   )
