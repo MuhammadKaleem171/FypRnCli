@@ -1,9 +1,10 @@
 import React,{useState}from 'react'
-import { View, Text, StyleSheet,TextInput, Button} from 'react-native'
+import { View, Text, StyleSheet,TextInput, Button,TouchableOpacity} from 'react-native'
 import {Picker} from '@react-native-picker/picker'
 import DocumentPicker from 'react-native-document-picker'
 import RNFetchBlob from 'rn-fetch-blob'
 import PDFView from 'react-native-view-pdf'
+
 
 
 /**
@@ -86,9 +87,11 @@ placeholder="Enter Assignment Title"
       </View>
       <View style={styles.FileView}>
           <Text style={{fontSize:24,color:'#fb5b5a',}}> Select File </Text>
-          <View style={styles.fileUpload}>
-<Button title="Select File "  onPress={selectFile}/>
-          </View>
+          
+         <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
+           <Text style={styles.btntext}>Select File</Text>
+           </TouchableOpacity>
+       
           <View style={styles.preView}>
               <Text style={{fontSize:18}}>{
                   filedata!==null ?filedata.name :null
@@ -105,11 +108,14 @@ placeholder="Enter Assignment Title"
               }
 
           </View>
-          <View style={{marginTop:50}}>
-          <Button title="Upload Assignment "  onPress={()=>console.log('hello')}/>
+          <View style={{marginTop:30}}>
+          <TouchableOpacity  style={styles.btn }onPress={()=>console.log('hello')}>
+            <Text style={styles.btntext}> Upload Assignment </Text>
+            </TouchableOpacity>
           </View>
 
       </View>
+     
     
   </View>
   )
@@ -179,6 +185,32 @@ dataBasePiker:{
       position:'relative',
       top:20,
       right:-40
+  },
+  btn:{
+    borderWidth:1,
+    width:200,
+    height:30,
+    borderRadius:5,
+    alignSelf:'center',
+    position:'relative',
+    left:-18,  
+     backgroundColor:'#fb5b5a'
+  },
+  btn1:{
+    borderWidth:1,
+    top:10,
+    width:200,
+    height:30,
+    borderRadius:5,
+    alignSelf:'center',
+    position:'relative',
+    left:-20,
+    backgroundColor:'#fb5b5a'
+  },
+  btntext:{
+    fontSize:14,
+    color:'white',
+    textAlign:'center'
   }
 
 
