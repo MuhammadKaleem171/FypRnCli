@@ -18,6 +18,7 @@ const serverList=[{
     ServerName:'Bscs-2a'
   }
   ]
+  
 const UploadAssignment = (props) => {
     const [Assignment,setAssignment]=useState(null)
     const [filedata,setFileData]=useState(null)
@@ -50,6 +51,37 @@ setAssignment(data)
           }
       }
       const resourceType = 'base64';
+      const uploadPdf=()=>{
+       
+        try{
+          const data=JSON.stringify({
+            T_id:"T123",
+            ClassID:1,
+            AssignmtNo:2,
+            ss:Assignment,
+            AssignmentName:filedata.name,
+          })
+          console.debug(data)
+
+        fetch('http://192.168.10.9/backend/api/Teacher/PostAssignment', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: data
+      }).then(response => response.json()) 
+      .then(json => {
+        console.log(json);
+        alert(json)
+      })
+    }catch(e){
+
+      console.log(e)
+    }
+     
+    
+      }
  return(
   <View style={styles.container}>
 
@@ -109,7 +141,7 @@ placeholder="Enter Assignment Title"
 
           </View>
           <View style={{marginTop:30}}>
-          <TouchableOpacity  style={styles.btn }onPress={()=>console.log('hello')}>
+          <TouchableOpacity  style={styles.btn }onPress={uploadPdf}>
             <Text style={styles.btntext}> Upload Assignment </Text>
             </TouchableOpacity>
           </View>

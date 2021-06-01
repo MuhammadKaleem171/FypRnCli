@@ -22,7 +22,7 @@ export default TeacherLogIn =({navigation}) =>{
 <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={20}  style={styles.form}>
  {<Image source = {require("../../assets/teacher.png")}style = {{ width: 100, height: 100,display:'flex',marginLeft:100}}/> }
 <View style={{display:'flex',marginBottom:20,alignItems:'center' }}>
-  <Text style={{fontSize:34,fontFamily:'ariel',color:'#fb5b5a',fontWeight:'600'}}> Teacher Log-In </Text>
+  <Text style={{fontSize:34,fontFamily:'ariel',color:'#fb5b5a',fontWeight:'600'}}> Teacher LogIn </Text>
   </View>
       <View style={styles.inputView}>
         <TextInput
