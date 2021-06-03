@@ -5,6 +5,8 @@ import {
 }
 from 'react-native'
 
+import IpAddress  from '../../Enviornment/Ipconfig'
+
 
 const ExecuteQuery=(props)=>{
     const[result,setResult]=useState([])
@@ -15,7 +17,7 @@ const ExecuteQuery=(props)=>{
         const databaseName=props.route.params.database
         const query=props.route.params.Query
         console.log('eeeeeeeeeeeeeeeeeee',databaseName)
-        fetch(`http://192.168.10.7/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
+        fetch(`http://${IpAddress}/backend/api/values/ExcQuery?query=${query}&Table=${databaseName}`)
         .then(res=>res.json())
         .then((data)=>{
           console.log('cccccccccccccccccccccc',data)

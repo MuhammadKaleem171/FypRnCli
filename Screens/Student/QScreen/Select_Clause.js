@@ -15,7 +15,8 @@ import {
   } from "react-native";
   import CheckBox from '@react-native-community/checkbox'
   import {Picker} from '@react-native-picker/picker'
-
+import IpAddress from '../../../Enviornment/Ipconfig'
+import PDFView from 'react-native-view-pdf'
 
   const serverList=[{
     ServerName:"MALIKKALEEM\SQLEXPRESS01"
@@ -25,6 +26,7 @@ import {
   }
   ]
   const Select_Clause=(props)=>{
+    console.log(props.route.params.Lesson)
     const[Database,setDatabase]=useState([])
     const[SelectedDatabase,setSelectedDatabase]=useState()
     const [TableName,setTableName]=useState([])
@@ -38,11 +40,30 @@ import {
     const [getSavedQuery,setGetSavedQuery]=useState([])
     const [Query_Name,setQuery_Name]=useState()
 
+    const [Assigment,setAssignment]=useState(null)
+    const [AssignmentModel,setAssignmentModel]=useState(false)
+
 
     // -----------------Function ----------
+  
+
+    const getAssignment=()=>{
+      const LessonNo=props.route.params.Lesson
+      console.log('lesson =',LessonNo)
+      try{
+fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
+.then(res=>res.json())
+.then((res)=>{
+    setAssignment(res)
+  })
+}catch(e){
+  console.debug(e.AssignmentName)
+}
+    }
 
     useEffect(() => {
-        fetch('http://192.168.1.18/backend/api/values/GetDatabase')
+      getAssignment();
+        fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -53,7 +74,7 @@ import {
       
      const GetTabeName=(item)=>{
        const database=item.itemValue
-      fetch(`http://192.168.10.7/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -65,7 +86,7 @@ import {
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.10.7/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)
@@ -101,7 +122,7 @@ import {
   
    const GetqueryFromDatabase=()=>{
      console.log('clicked')
-     fetch(`http://192.168.10.7/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+     fetch(`http://${IpAddress}/backend/api/values/SaveQuery?UserName=17-arid-3460`)
      .then(res=>res.json())
      .then((response)=>{
        console.log(response)
@@ -112,7 +133,7 @@ import {
    const PostSavedQuery=()=>{
      console.log('post')
   
-    fetch('http://192.168.10.7/backend/api/Values/PostQuery', {
+    fetch(`http://${IpAddress}/backend/api/Values/PostQuery`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -131,7 +152,9 @@ import {
     })
     
    }
+   const resourceType = 'base64';
 // <---------------------------------------------------Function end------------------------------------------->
+
       return(
         <View style={{flex:1,backgroundColor:'#fff'}}>     
         <ScrollView style={{position:'relative'}}>
@@ -263,13 +286,35 @@ import {
   </View>
  
 
-<View style={{height:150,marginTop:20,justifyContent:'center'}}>
+<View style={{height:60,marginTop:10,justifyContent:'center'}}>
 <Button onPress={() => {
           ShowQuery()
             setShowModal(!showModal);
           }} title="Execute "
   color="#fb5b5a"
   accessibilityLabel="Learn more about this purple button"/> 
+
+
+  </View>
+  {/* //////////////////////////////Show Assignment /////////////////////////// */}
+  <View style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center',height:200}}>
+    <View style={styles.AssignmentView} >
+      <Text style={styles.syntax}> Assigment  </Text>
+    </View>
+    <View style={styles.AssignmentTitle}>
+      <TouchableOpacity >
+        { Assigment!==null ?
+        <Text style={{color:'blue'}} onPress={()=>setAssignmentModel(!AssignmentModel)}> {Assigment.AssignmentName}</Text>:null
+  }
+      </TouchableOpacity>
+    </View>
+    <View style={styles.SubmitBtn}>
+    <Button onPress={() =>console.log("Submit")}
+  color="#fb5b5a"
+  title="Submit Assignment"
+  accessibilityLabel="Submit"/> 
+
+    </View>
 
 
   </View>
@@ -396,6 +441,31 @@ import {
 </View>
 
           </Modal>
+ {/* ////////////////////////////////////Assignent Model ///////////////////////// */}
+ <Modal 
+          animationType={'slide'}
+          transparent={false}
+          visible={AssignmentModel}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+            <View style={{display:'flex',justifyContent:'center',alignItems:'center',flex:1}}>
+<View style={styles.AssignmentmodalView}>
+
+                    <PDFView
+                  fadeInDuration={250.0}
+                  style={{ flex: 1 }}
+                  resource={Assigment.ss}
+                  resourceType={resourceType}
+                  onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
+                  onError={(error) => console.log('Cannot render PDF', error)}
+                /> 
+              
+</View>
+<Button title="download " onPress={()=>setAssignmentModel(false)} />
+</View>
+
+          </Modal>
 
           </View>
       )
@@ -476,8 +546,35 @@ import {
       Mbtn:{
         width:150,marginTop:10,marginRight:10,
        
-      }
-
+      },
+      AssignmentView:{
+position:'relative',
+top:-60
+      },
+      AssignmentTitle:{
+        position:'relative',
+top:-50,
+      },
+      SubmitBtn:{
+        position:'relative',
+top:-30,
+      },
+      AssignmentmodalView: {
+        width:'90%',
+        height:600,
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2    
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5},
 
   })
   export default Select_Clause;

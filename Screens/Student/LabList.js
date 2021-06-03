@@ -101,7 +101,7 @@ import {
               <Text style={styles.txtView}>{data.id}</Text>
               </View>
               <View  style={styles.LabView}>
-                  <TouchableOpacity onPress={()=>props.navigation.navigate(data.screen,{UserName: 1})}>
+                  <TouchableOpacity onPress={()=>props.navigation.navigate(data.screen,{Lesson:data.id})}>
               <Text style={styles.txtView}>{data.Content}</Text>
               </TouchableOpacity>
               </View>
