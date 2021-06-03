@@ -17,6 +17,8 @@ import {
   import {Picker} from '@react-native-picker/picker'
 import IpAddress from '../../../Enviornment/Ipconfig'
 import PDFView from 'react-native-view-pdf'
+import DocumentPicker from 'react-native-document-picker'
+import RNFetchBlob from 'rn-fetch-blob'
 
   const serverList=[{
     ServerName:"MALIKKALEEM\SQLEXPRESS01"
@@ -42,6 +44,9 @@ import PDFView from 'react-native-view-pdf'
 
     const [Assigment,setAssignment]=useState(null)
     const [AssignmentModel,setAssignmentModel]=useState(false)
+    const [SubmitAssignmentModel,setSubmitAssignmentModel]=useState(false)
+    const [StudentAssignment,setStudentAssignment]=useState(null)
+    const [filedata,setFileData]=useState(null)
 
 
     // -----------------Function ----------
@@ -69,8 +74,34 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
             setDatabase(data)
             console.log(data);
         });            
-      }, []);
+      }, 
+      
+    
+      []);
   
+
+      const selectFile =async()=>{
+        try{
+            const res =await DocumentPicker.pick({
+              type: [DocumentPicker.types.pdf],
+
+            }) 
+            setFileData(res)
+            console.log('res : ' + JSON.stringify(res));
+            console.log('URI : ' + res.uri);
+            console.log('Type : ' + res.type);
+            console.log('File Name : ' + res.name);
+            console.log('File Size : ' + res.size);
+            RNFetchBlob.fs.readFile(res.uri,'base64').then(
+                (data)=>{
+console.log(data)
+setStudentAssignment(data)
+                }
+            )
+        }catch(e){
+            console.log(e)
+        }
+    }
       
      const GetTabeName=(item)=>{
        const database=item.itemValue
@@ -299,17 +330,17 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
   {/* //////////////////////////////Show Assignment /////////////////////////// */}
   <View style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center',height:200}}>
     <View style={styles.AssignmentView} >
-      <Text style={styles.syntax}> Assigment  </Text>
+      <Text style={styles.syntax}> Assignment From Lesson   </Text>
     </View>
     <View style={styles.AssignmentTitle}>
       <TouchableOpacity >
         { Assigment!==null ?
-        <Text style={{color:'blue'}} onPress={()=>setAssignmentModel(!AssignmentModel)}> {Assigment.AssignmentName}</Text>:null
+        <Text style={{color:'blue',fontSize:22}} onPress={()=>setAssignmentModel(!AssignmentModel)}> {Assigment.AssignmentName}</Text>:null
   }
       </TouchableOpacity>
     </View>
     <View style={styles.SubmitBtn}>
-    <Button onPress={() =>console.log("Submit")}
+    <Button onPress={() =>setSubmitAssignmentModel(!SubmitAssignmentModel)}
   color="#fb5b5a"
   title="Submit Assignment"
   accessibilityLabel="Submit"/> 
@@ -441,7 +472,11 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
 </View>
 
           </Modal>
+
  {/* ////////////////////////////////////Assignent Model ///////////////////////// */}
+
+
+
  <Modal 
           animationType={'slide'}
           transparent={false}
@@ -450,23 +485,70 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
             console.log('Modal has been closed.');
           }}>
             <View style={{display:'flex',justifyContent:'center',alignItems:'center',flex:1}}>
-<View style={styles.AssignmentmodalView}>
-
-                    <PDFView
+            { Assigment!==null ?
+     <View style={styles.AssignmentmodalView}>
+            <Text>{Assigment.AssignmentName} </Text>
+            <View style={{width:'100%',height:'100%'}}>
+                  <PDFView
                   fadeInDuration={250.0}
                   style={{ flex: 1 }}
                   resource={Assigment.ss}
                   resourceType={resourceType}
                   onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
                   onError={(error) => console.log('Cannot render PDF', error)}
-                /> 
-              
-</View>
+                />    
+                </View> 
+</View>:null
+  }
 <Button title="download " onPress={()=>setAssignmentModel(false)} />
 </View>
 
           </Modal>
+{/*      Submit    Assignment     Model */}
 
+<Modal 
+animationType={'fade'}
+          transparent={false}
+          visible={SubmitAssignmentModel}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+
+<View style={{display:'flex',justifyContent:'center',alignItems:'center',flex:1}}>
+  <Text style={styles.syntax}> Submit Assignment </Text>
+  <View style={styles.FileView}>
+          <Text style={{fontSize:24,color:'#fb5b5a',}}> Select File </Text>
+          
+         <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
+           <Text style={styles.btntext}>Select File</Text>
+           </TouchableOpacity>
+       
+          <View style={styles.preView}>
+              <Text style={{fontSize:18}}>{
+                  filedata!==null ?filedata.name :null
+                  }</Text>
+              {
+                  StudentAssignment!==null ? <PDFView
+                  fadeInDuration={250.0}
+                  style={{ flex: 1 }}
+                  resource={StudentAssignment}
+                  resourceType={resourceType}
+                  onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
+                  onError={(error) => console.log('Cannot render PDF', error)}
+                /> :null
+              }
+
+          </View>
+          <View style={{marginTop:30}}>
+          <TouchableOpacity  style={styles.btn }>
+            <Text style={styles.btntext}> Upload Assignment </Text>
+            </TouchableOpacity>
+          </View>
+
+      </View>
+</View>
+<Button title="Close" onPress={()=>setSubmitAssignmentModel(false)} />
+</Modal>
           </View>
       )
   }
@@ -575,6 +657,51 @@ top:-30,
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5},
+        FileView:{
+          display:'flex',
+          width:'90%'
+        },
+        fileUpload:{
+          display:'flex',
+         marginTop:15,
+          width:'90%',
+          borderWidth:1,
+        },
+        preView:{
+            width:200,
+            height:200,
+            borderWidth:1,
+            position:'relative',
+            top:20,
+            right:-40
+        },
+        btn:{
+          borderWidth:1,
+          width:200,
+          height:30,
+          borderRadius:5,
+          alignSelf:'center',
+          position:'relative',
+          left:-18,  
+           backgroundColor:'#fb5b5a'
+        },
+        btn1:{
+          borderWidth:1,
+          top:10,
+          width:200,
+          height:30,
+          borderRadius:5,
+          alignSelf:'center',
+          position:'relative',
+          left:-20,
+          backgroundColor:'#fb5b5a'
+        },
+        btntext:{
+          fontSize:14,
+          color:'white',
+          textAlign:'center'
+        }
+      
 
   })
   export default Select_Clause;
