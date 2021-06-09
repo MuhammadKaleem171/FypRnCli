@@ -54,6 +54,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 
     const getAssignment=()=>{
       const LessonNo=props.route.params.Lesson
+
       console.log('lesson =',LessonNo)
       try{
 fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
@@ -66,13 +67,44 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
 }
     }
 
+
+  const StUpload=()=>{
+    console.log('ggg',StudentAssignment)
+    try{
+      const data=JSON.stringify({
+        UserName:"17-arid-3460",
+        ClassID:1,
+        AssignmentID:26,
+        base64:StudentAssignment,
+      })
+      console.debug(data)
+
+    fetch('http://192.168.1.18/backend/api/Student/PostAssignment', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: data
+  }).then(response => response.json()) 
+  .then(json => {
+ console.log(json)
+    alert(json)
+  })
+}catch(e){
+
+  console.log(e)
+}
+ 
+
+  }  
+
     useEffect(() => {
       getAssignment();
         fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
-            console.log(data);
         });            
       }, 
       
@@ -87,14 +119,8 @@ fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
 
             }) 
             setFileData(res)
-            console.log('res : ' + JSON.stringify(res));
-            console.log('URI : ' + res.uri);
-            console.log('Type : ' + res.type);
-            console.log('File Name : ' + res.name);
-            console.log('File Size : ' + res.size);
             RNFetchBlob.fs.readFile(res.uri,'base64').then(
                 (data)=>{
-console.log(data)
 setStudentAssignment(data)
                 }
             )
@@ -108,7 +134,6 @@ setStudentAssignment(data)
       fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
-          console.log(data)
           setTableName(data)   
          
       });
@@ -541,7 +566,7 @@ animationType={'fade'}
           </View>
           <View style={{marginTop:30}}>
           <TouchableOpacity  style={styles.btn }>
-            <Text style={styles.btntext}> Upload Assignment </Text>
+            <Text style={styles.btntext} onPress={StUpload}> Upload Assignment;s </Text>
             </TouchableOpacity>
           </View>
 
