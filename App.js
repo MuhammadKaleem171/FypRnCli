@@ -42,6 +42,7 @@ import MidTerm from './Screens/Student/QScreen/MidTerm';
 import Toption from './Screens/Teacher/Toption';
 import UploadAssignment from './Screens/Teacher/UploadAssignment';
 import CheckAssignment from './Screens/Teacher/CheckAssignment';
+import AddDatabase from './Screens/Teacher/AddDatabase';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
@@ -95,6 +96,7 @@ const Tabnavi=()=>{
 
     />
      <Tab.Screen name="CheckAssignment" component={CheckAssignment}/>
+     <Tab.Screen name="AddDatabase" component={AddDatabase}/>
      </Tab.Navigator>
   )
 }

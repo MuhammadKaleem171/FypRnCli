@@ -11,9 +11,12 @@ import {
     ScrollView,
     Switch,Modal
   } from "react-native";
-  
+  import IpAddress from '../../../Enviornment/Ipconfig'
   import CheckBox from '@react-native-community/checkbox'
   import {Picker} from '@react-native-picker/picker'
+  import PDFView from 'react-native-view-pdf'
+import DocumentPicker from 'react-native-document-picker'
+import RNFetchBlob from 'rn-fetch-blob'
 
   const serverList=[{
     ServerName:"MALIKKALEEM\SQLEXPRESS01"
@@ -35,7 +38,7 @@ JoinName:"Full Outer Join"
 }
 ]
   const Joins=(props)=>{
-
+    const resourceType = 'base64';
     const[Database,setDatabase]=useState([])
     const[SelectedDatabase,setSelectedDatabase]=useState()
     const [TableName,setTableName]=useState([])
@@ -61,10 +64,82 @@ JoinName:"Full Outer Join"
     const [OnJoinColum,setOnJoinColum]=useState()
     const [jointype,setJoinType]=useState(null);
 
+    ///////////////////////////////////////
+    const [Assigment,setAssignment]=useState(null)
+    const [AssignmentModel,setAssignmentModel]=useState(false)
+    const [SubmitAssignmentModel,setSubmitAssignmentModel]=useState(false)
+    const [StudentAssignment,setStudentAssignment]=useState(null)
+    const [filedata,setFileData]=useState(null)
+
+    //////////////////////////
+
+    const getAssignment=()=>{
+      const LessonNo=1;
+      //props.route.params.Lesson
+
+      console.log('lesson =',LessonNo)
+      try{
+fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
+.then(res=>res.json())
+.then((res)=>{
+  console.log(res)
+    setAssignment(res)
+  })
+}catch(e){
+  console.debug(e.AssignmentName)
+}
+    }
+
+const StUpload=()=>{
+  console.log('ggg',StudentAssignment)
+  try{
+    const data=JSON.stringify({
+      UserName:"17-arid-3460",
+      ClassID:1,
+      AssignmentID:26,
+      base64:StudentAssignment,
+    })
+    console.debug(data)
+
+  fetch('http://192.168.1.18/backend/api/Student/PostAssignment', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: data
+}).then(response => response.json()) 
+.then(json => {
+console.log(json)
+  alert(json)
+})
+}catch(e){
+
+console.log(e)
+}
 
 
+}  
+    const selectFile =async()=>{
+      try{
+          const res =await DocumentPicker.pick({
+            type: [DocumentPicker.types.pdf],
+
+          }) 
+          setFileData(res)
+          RNFetchBlob.fs.readFile(res.uri,'base64').then(
+              (data)=>{
+setStudentAssignment(data)
+              }
+          )
+      }catch(e){
+          console.log(e)
+      }
+  }
+  ////////////////////////////////////
     useEffect(() => {
-      fetch('http://192.168.10.7/backend/api/values/GetDatabase')
+      getAssignment();
+      fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
       .then(res=>res.json())
       .then((data)=>{
           setDatabase(data)
@@ -75,7 +150,7 @@ JoinName:"Full Outer Join"
     
    const GetTabeName=(item)=>{
      const database=item.itemValue
-    fetch(`http://192.168.10.7/backend/api/values/gettable?TableName=${database}`)
+    fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
     .then(res=>res.json())
     .then((data)=>{
         console.log(data)
@@ -87,7 +162,7 @@ JoinName:"Full Outer Join"
 const GetColumnNames=(da)=>{
 console.log('table name name',da.itemValue)
 const data=da.itemValue
-      fetch(`http://192.168.10.7/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+      fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
 .then(res=>res.json())
 .then((data)=>{
     //console.log(data)
@@ -98,7 +173,7 @@ const data=da.itemValue
     const GetColumnNames2=(da)=>{
       console.log('table name name',da.itemValue)
       const data=da.itemValue
-            fetch(`http://192.168.10.7/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+            fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
       .then(res=>res.json())
       .then((data)=>{
          // console.log(data)
@@ -184,7 +259,7 @@ setQColum(v);
 
  const GetqueryFromDatabase=()=>{
    console.log('clicked')
-   fetch(`http://192.168.10.7/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+   fetch(`http://${IpAddress}/backend/api/values/SaveQuery?UserName=17-arid-3460`)
    .then(res=>res.json())
    .then((response)=>{
      console.log(response)
@@ -195,7 +270,7 @@ setQColum(v);
  const PostSavedQuery=()=>{
    console.log('post')
 
-  fetch('http://192.168.10.7/backend/api/Values/PostQuery', {
+  fetch(`http://${IpAddress}/backend/api/Values/PostQuery`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -509,6 +584,28 @@ co();
 
 
   </View>
+   {/* //////////////////////////////Show Assignment /////////////////////////// */}
+   <View style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center',height:200}}>
+    <View style={styles.AssignmentView} >
+      <Text style={styles.syntax}> Assignment From Lesson   </Text>
+    </View>
+    <View style={styles.AssignmentTitle}>
+      <TouchableOpacity >
+        { Assigment!==null ?
+        <Text style={{color:'blue',fontSize:22}} onPress={()=>setAssignmentModel(!AssignmentModel)}> {Assigment.AssignmentName}</Text>:null
+  }
+      </TouchableOpacity>
+    </View>
+    <View style={styles.SubmitBtn}>
+    <Button onPress={() =>setSubmitAssignmentModel(!SubmitAssignmentModel)}
+  color="#fb5b5a"
+  title="Submit Assignment"
+  accessibilityLabel="Submit"/> 
+
+    </View>
+
+
+  </View>
           </ScrollView>
 
           {/* {
@@ -658,6 +755,83 @@ co();
 </View>
 
           </Modal>
+
+ {/* ////////////////////////////////////Assignent Model ///////////////////////// */}
+
+
+
+ <Modal 
+          animationType={'slide'}
+          transparent={false}
+          visible={AssignmentModel}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+            <View style={{display:'flex',justifyContent:'center',alignItems:'center',flex:1}}>
+            { Assigment!==null ?
+     <View style={styles.AssignmentmodalView}>
+            <Text style={styles.heading1}>{Assigment.AssignmentName} </Text>
+            <View style={{width:300,height:'90%',borderWidth:1}}>
+                  <PDFView
+                  fadeInDuration={250.0}
+                  style={{ flex: 1 }}
+                  resource={Assigment.ss}
+                  resourceType={resourceType}
+                  onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
+                  onError={(error) => console.log('Cannot render PDF', error)}
+                />    
+                </View> 
+</View>:null
+  }
+<Button title="download " onPress={()=>setAssignmentModel(false)} />
+</View>
+
+          </Modal>
+{/*      Submit    Assignment     Model */}
+
+<Modal 
+animationType={'fade'}
+          transparent={false}
+          visible={SubmitAssignmentModel}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+
+<View style={{display:'flex',alignItems:'center',flex:1,marginTop:20}}>
+  <Text style={styles.syntax}> Submit Assignment </Text>
+  <View style={styles.FileView}>
+          <Text style={{fontSize:24,color:'#fb5b5a',}}> Select File </Text>
+          
+         <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
+           <Text style={styles.btntext}>Select File</Text>
+           </TouchableOpacity>
+       
+          <View style={styles.preView}>
+              <Text style={{fontSize:18}}>{
+                  filedata!==null ?filedata.name :null
+                  }</Text>
+              {
+                  StudentAssignment!==null ? <PDFView
+                  fadeInDuration={250.0}
+                  style={{ flex: 1 }}
+                  resource={StudentAssignment}
+                  resourceType={resourceType}
+                  onLoad={() => console.log(`PDF rendered from ${resourceType}`)}
+                  onError={(error) => console.log('Cannot render PDF', error)}
+                /> :null
+              }
+
+          </View>
+          <View style={{marginTop:30}}>
+          <TouchableOpacity  style={styles.btn }>
+            <Text style={styles.btntext} onPress={StUpload}> Upload Assignment;s </Text>
+            </TouchableOpacity>
+          </View>
+
+      </View>
+</View>
+<Button title="Close" onPress={()=>setSubmitAssignmentModel(false)} />
+</Modal>         
         </View>
     )
   }
@@ -737,6 +911,78 @@ width:'90%',
     Mbtn:{
       width:150,marginTop:10,marginRight:10,
      
-    }
+    },
+    AssignmentView:{
+      position:'relative',
+      top:-60
+            },
+            AssignmentTitle:{
+              position:'relative',
+      top:-50,
+            },
+            SubmitBtn:{
+              position:'relative',
+      top:-30,
+            },
+            AssignmentmodalView: {
+              width:'90%',
+              height:600,
+              margin: 20,
+              backgroundColor: "white",
+              borderRadius: 20,
+              padding: 35,
+              alignItems: "center",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2    
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5},
+              FileView:{
+                display:'flex',
+                width:'90%'
+              },
+              fileUpload:{
+                display:'flex',
+               marginTop:15,
+                width:'90%',
+                borderWidth:1,
+              },
+              preView:{
+                  width:200,
+                  height:200,
+                  borderWidth:1,
+                  position:'relative',
+                  top:20,
+                  right:-40
+              },
+              btn:{
+                borderWidth:1,
+                width:200,
+                height:30,
+                borderRadius:5,
+                alignSelf:'center',
+                position:'relative',
+                left:-18,  
+                 backgroundColor:'#fb5b5a'
+              },
+              btn1:{
+                borderWidth:1,
+                top:10,
+                width:200,
+                height:30,
+                borderRadius:5,
+                alignSelf:'center',
+                position:'relative',
+                left:-20,
+                backgroundColor:'#fb5b5a'
+              },
+              btntext:{
+                fontSize:14,
+                color:'white',
+                textAlign:'center'
+              }
   })
   export default Joins;

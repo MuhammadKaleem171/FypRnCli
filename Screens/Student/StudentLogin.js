@@ -11,6 +11,7 @@ import {
   ScrollView
  
 } from "react-native";
+import IpAddress from '../../Enviornment/Ipconfig'
 const StudentLogin=({navigation})=>{
   const [userName,setUserName]=useState('')  
   const [password,setPassword]=useState('')
@@ -18,7 +19,7 @@ const StudentLogin=({navigation})=>{
 
   const postData=()=>{
     console.log("clicked   ")
-    fetch('http://192.168.10.10/backend/api/Values/post', {
+    fetch(`http://${IpAddress}/backend/api/Values/post`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -34,7 +35,7 @@ const StudentLogin=({navigation})=>{
 
    const Login=()=>{
   //  props.navigation.push('query')
-   fetch(`http://192.168.43.193/backend/api/values/login?userName=${userName}&password=${password}`, {
+   fetch(`http://${IpAddress}/backend/api/values/login?userName=${userName}&password=${password}`, {
      
    }).then(response => response.json()) 
    .then(json => {

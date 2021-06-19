@@ -14,6 +14,7 @@ import {
   } from "react-native";
   import CheckBox from '@react-native-community/checkbox'
   import {Picker} from '@react-native-picker/picker'
+  import IpAddress from '../../../Enviornment/Ipconfig'
 
 
   const serverList=[{
@@ -49,7 +50,7 @@ import {
     // -----------------Function ----------
 
     useEffect(() => {
-        fetch('http://192.168.10.10/backend/api/values/GetDatabase')
+        fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -60,7 +61,7 @@ import {
       
      const GetTabeName=(item)=>{
        const database=item.itemValue
-      fetch(`http://192.168.10.10/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -72,7 +73,7 @@ import {
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.10.10/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)
@@ -108,7 +109,7 @@ import {
   
    const GetqueryFromDatabase=()=>{
      console.log('clicked')
-     fetch(`http://192.168.10.10/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+     fetch(`http://${IpAddress}/backend/api/values/SaveQuery?UserName=17-arid-3460`)
      .then(res=>res.json())
      .then((response)=>{
        console.log(response)
@@ -119,7 +120,7 @@ import {
    const PostSavedQuery=()=>{
      console.log('post')
   
-    fetch('http://192.168.10.10/backend/api/Values/PostQuery', {
+    fetch(`http://${IpAddress}/backend/api/Values/PostQuery`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

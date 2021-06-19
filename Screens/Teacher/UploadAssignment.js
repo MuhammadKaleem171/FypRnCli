@@ -31,7 +31,7 @@ const UploadAssignment = (props) => {
       const selectFile =async()=>{
           try{
               const res =await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf],
+                type: [DocumentPicker.types.allFilesd],
 
               }) 
               setFileData(res)
