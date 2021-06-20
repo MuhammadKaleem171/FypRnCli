@@ -5,6 +5,7 @@ import DocumentPicker from 'react-native-document-picker'
 import RNFetchBlob from 'rn-fetch-blob'
 import PDFView from 'react-native-view-pdf'
 
+import LessonList from '../Student/LessonList.js'
 
 
 /**
@@ -31,7 +32,7 @@ const UploadAssignment = (props) => {
       const selectFile =async()=>{
           try{
               const res =await DocumentPicker.pick({
-                type: [DocumentPicker.types.allFilesd],
+                type: [DocumentPicker.types.pdf],
 
               }) 
               setFileData(res)
@@ -85,7 +86,7 @@ setAssignment(data)
  return(
   <View style={styles.container}>
 
-      <View  style={styles.assignmentTitle}>
+      {/* <View  style={styles.assignmentTitle}>
       <Text style={styles.title}>Assigment Title</Text>
 
 <View style={styles.inputView}>
@@ -95,20 +96,20 @@ placeholder="Enter Assignment Title"
 
 />
 </View>
-      </View>
+      </View> */}
 
       <View style={styles.classStyle}>
           <View>
-              <Text style={{fontSize:24,color:'#fb5b5a',}}>Select Class </Text>
+              <Text style={{fontSize:24,color:'#fb5b5a',}}>Select Lesson </Text>
           <Picker style={styles.dataBasePiker}
              dropdownIconColor="#21130d" 
              mode="dropdown"
             selectedValue={"MALIKKALEEM\SQLEXPRESS01"}
             >
             {
-              serverList.map((data,i)=>{
+              LessonList.map((data,i)=>{
                 return(
-                  <Picker.Item key={i} label={data.ServerName} value={data.ServerName}/>
+                  <Picker.Item key={i} label={data.id.toString()} value={data.ServerName}/>
                 )
               })
             }

@@ -61,7 +61,7 @@ SetSqlFile(data)
   const Test=()=>{
       let v=''
       const a=TextFile.toString();
-     for(let i=1;i<a.length-1;i++){
+     for(let i=0;i<a.length-1;i++){
        v=v+a[i];
      }
 
@@ -70,21 +70,26 @@ SetSqlFile(data)
   }
  return(
   <View style={container}>
-  <View>
+  <View style={{justifyContent:'center',marginTop:20,borderWidth:1,alignItems:'center',backgroundColor:'#fb5b5a',marginBottom:10}}>
   <TouchableOpacity  style={styles.btn1} onPress={selectFile}>
-           <Text style={styles.btntext}>Select File</Text>
+           <Text style={{fontSize:18,color:'white',}}>Select  .Sql  File </Text>
            </TouchableOpacity>
   </View>
-  <View style={{backgroundColor:'red'}}>
+  <View>
+    {filedata!=null?
+    <Text>selected fie :{filedata.name}</Text>
+    :null}
+  </View>
+  {/* <View >
     
       <TextInput placeholder=" your Sql file"
       style={{height:200}}
-    multiline={true}
-    onChangeText={(TextFile) => setTextFile(TextFile)}
-    value={TextFile}
-    numberOfLines={40}
-    editable={true}
-    scrollEnabled={true}
+      underlineColorAndroid="transparent"
+      placeholder="Type something"
+      placeholderTextColor="grey"
+      numberOfLines={10}
+      multiline={true}
+      value={A.toString()}
       
       />
     
@@ -94,7 +99,7 @@ SetSqlFile(data)
            <Text style={styles.btntext}>get  data</Text>
            </TouchableOpacity>
   </View>
-  <Text>{A}</Text>
+  <Text numberOfLines={1} ellipsizeMode="middle">{A.toString()}</Text> */}
   </View>
   )
 }
