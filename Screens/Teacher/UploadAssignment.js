@@ -25,6 +25,7 @@ const UploadAssignment = (props) => {
     const[SelectedDatabase,setSelectedDatabase]=useState()
     const [Assignment,setAssignment]=useState(null)
     const [filedata,setFileData]=useState(null)
+    const [lessonNo,setLessonNo]=useState(0)
     console.debug(props)
     const resources = {
         file: Platform.OS === 'ios' ? 'downloadedDocument.pdf' : 'content://com.android.providers.downloads.documents/document/4377',
@@ -73,13 +74,14 @@ setAssignment(data)
           const data=JSON.stringify({
             T_id:"T123",
             ClassID:1,
-            AssignmtNo:2,
+            LessonNo:lessonNo,
             ss:Assignment,
             AssignmentName:filedata.name,
+            DatabaseName:SelectedDatabase
           })
           console.debug(data)
 
-        fetch('http://192.168.10.9/backend/api/Teacher/PostAssignment', {
+        fetch('http://192.168.10.6/backend/api/Teacher/PostAssignment', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -130,12 +132,17 @@ setAssignment(data)
           <Picker style={styles.dataBasePiker}
              dropdownIconColor="#21130d" 
              mode="dropdown"
-            selectedValue={"MALIKKALEEM\SQLEXPRESS01"}
+            selectedValue={lessonNo}
+            onValueChange={((itemValue, itemIndex)=>{
+              setLessonNo(itemValue)
+            }
+            )
+            }
             >
             {
               LessonList.map((data,i)=>{
                 return(
-                  <Picker.Item key={i} label={data.id.toString()} value={data.ServerName}/>
+                  <Picker.Item key={i} label={data.id.toString()} value={data.id}/>
                 )
               })
             }

@@ -33,7 +33,11 @@ const TeacherExQuery=(props)=>{
 
     useEffect(()=>{
 setAnswer(QuestionList)
-    },[])
+
+
+    },[]
+     
+    )
     console.log(props)
     
     const mData=(Q,an)=>{

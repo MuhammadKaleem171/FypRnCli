@@ -7,6 +7,8 @@ import PDFView from 'react-native-view-pdf'
 import { useState } from 'react/cjs/react.development'
 
 import LessonList from '../Student/LessonList.js'
+
+import IpAddress from '../../Enviornment/Ipconfig.js'
 /**
 * @author
 * @function CheckAssignment
@@ -33,6 +35,23 @@ const stuList=[{
 const CheckAssignment = (props) => {
 
   const[LessonNo,setLessonNo]=useState(0);
+  const [studentList,setStudentList]=useState([])
+
+  const getListOfStudents=(LessonNo)=>{
+    try{
+      fetch(`http://${IpAddress}/backend/api/Teacher/GetStudentList?Lesson=${LessonNo}`)
+      .then(res=>res.json())
+      .then((res)=>{
+         console.log(res)
+         setStudentList(res)
+        })
+      }catch(e){
+        console.debug(e.toString())
+      }
+          
+      
+
+  }
 
 const { container } = styles
  return(
@@ -49,6 +68,7 @@ const { container } = styles
   selectedValue={LessonNo}
   onValueChange={((itemValue, itemIndex)=>{
     setLessonNo(itemValue)
+    getListOfStudents(itemValue)
   }
   )
   }>
@@ -69,18 +89,20 @@ const { container } = styles
       
         <View style={{display:'flex',flexDirection:'column',justifyContent:'center'}} >
           {
-            stuList.map((data,index)=>{
+            studentList!=null?
+            studentList.map((data,index)=>{
               return(
                 <View key={index}>
                   <TouchableOpacity onPress={()=>props.navigation.navigate('TeacherExQuery',{
-                    stu:data.studentName,
-                    LessonNo:data.studentID
+                    stu:data.UserName,
+                    LessonNo:data.LessonNo
                   })}>
-                  <Text style={styles.ListDesign}>Submited By :    {data.studentName}</Text>
+                  <Text style={styles.ListDesign}>{data.UserName}</Text>
                   </TouchableOpacity>
                 </View>
               )
             })
+            :Null
           }
         </View>
 
