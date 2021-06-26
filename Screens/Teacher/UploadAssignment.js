@@ -1,10 +1,10 @@
-import React,{useState}from 'react'
+import React,{useState,useEffect}from 'react'
 import { View, Text, StyleSheet,TextInput, Button,TouchableOpacity} from 'react-native'
 import {Picker} from '@react-native-picker/picker'
 import DocumentPicker from 'react-native-document-picker'
 import RNFetchBlob from 'rn-fetch-blob'
 import PDFView from 'react-native-view-pdf'
-
+import IpAddress from '../../Enviornment/Ipconfig'
 import LessonList from '../Student/LessonList.js'
 
 
@@ -21,6 +21,8 @@ const serverList=[{
   ]
   
 const UploadAssignment = (props) => {
+  const[Database,setDatabase]=useState([])
+    const[SelectedDatabase,setSelectedDatabase]=useState()
     const [Assignment,setAssignment]=useState(null)
     const [filedata,setFileData]=useState(null)
     console.debug(props)
@@ -29,6 +31,19 @@ const UploadAssignment = (props) => {
         url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
         base64: 'v1Vo19pmSWup3hmztzo0FQ4HPDbi1Zq876nhxNybpdLhyVPbn3tdMTWMiFLsJa87vJMRu/1dgzLOXO3iFtGKQ/lEoX3dfh/8tPZkqRmrBbhYecry+wctS'
       }
+
+
+      useEffect(() => {
+
+          fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
+          .then(res=>res.json())
+          .then((data)=>{
+              setDatabase(data)
+          });            
+        }, 
+        
+      
+        []);
       const selectFile =async()=>{
           try{
               const res =await DocumentPicker.pick({
@@ -86,17 +101,28 @@ setAssignment(data)
  return(
   <View style={styles.container}>
 
-      {/* <View  style={styles.assignmentTitle}>
-      <Text style={styles.title}>Assigment Title</Text>
+<View style={{display:'flex',width:'90%'}}>
+<View >
+            <Text style={{fontSize:24,color:'#fb5b5a'}}>Select the Database</Text>
+          <Picker style={styles.dataBasePiker}
+      dropdownIconColor="#21130d" 
+      mode="dropdown"
+  selectedValue={SelectedDatabase}
+  onValueChange={((itemValue, itemIndex)=>{
+    setSelectedDatabase(itemValue)
+  }
+  )
+  }>
+    {
+      Database.map(data=>{
+        return(  <Picker.Item key={data} label={data} value={data} />)
+      })
+    }
 
-<View style={styles.inputView}>
-<TextInput
-style={styles.TextInput}
-placeholder="Enter Assignment Title"
-
-/>
+ 
+</Picker>
 </View>
-      </View> */}
+</View>
 
       <View style={styles.classStyle}>
           <View>
@@ -160,12 +186,37 @@ const styles = StyleSheet.create({
   
    justifyContent: 'center',
    alignItems: 'center',
-   width:'100%'
+   width:'100%',
+  
+   flexDirection:'column'
   },
 assignmentTitle:  {
     display:'flex',
   
     width:'90%'
+  },
+  DatabaseView:{
+    flex:1,
+    justifyContent:'center',
+    width:'90%',
+    marginTop:10,
+    marginLeft:20
+  },
+  heading1:{
+fontSize:18,
+textAlign:'center',
+marginTop:10,
+color:'#fb5b5a',
+fontWeight:'600'
+  },
+  dataBasePiker:{
+    borderWidth:1,
+    marginTop:10,
+    fontSize:20,
+    marginLeft:15,
+    borderColor:'black',
+    color:'black',
+    width:'70%'
   },
  title: {
      fontSize:24,

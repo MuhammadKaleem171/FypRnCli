@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet,TouchableOpacity } from 'react-native'
 
 import CheckBox from '@react-native-community/checkbox'
 import {Picker} from '@react-native-picker/picker'
@@ -72,7 +72,12 @@ const { container } = styles
             stuList.map((data,index)=>{
               return(
                 <View key={index}>
+                  <TouchableOpacity onPress={()=>props.navigation.navigate('TeacherExQuery',{
+                    stu:data.studentName,
+                    LessonNo:data.studentID
+                  })}>
                   <Text style={styles.ListDesign}>Submited By :    {data.studentName}</Text>
+                  </TouchableOpacity>
                 </View>
               )
             })

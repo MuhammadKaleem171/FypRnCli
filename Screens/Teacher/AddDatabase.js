@@ -44,7 +44,10 @@ const resources = {
           console.log('File Size : ' + res.size);
           RNFetchBlob.fs.readFile(res.uri,'base64').then(
               (data)=>{
+
+                console.log(data)
 var ddaa= base64.decode(data)
+console.log(ddaa)
 setTextFile(ddaa)
 SetSqlFile(data)
 
@@ -87,7 +90,7 @@ SetSqlFile(data)
       underlineColorAndroid="transparent"
       placeholder="Type something"
       placeholderTextColor="grey"
-      numberOfLines={10}
+      numberOfLines={10}yar
       multiline={true}
       value={A.toString()}
       

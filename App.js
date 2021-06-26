@@ -43,6 +43,7 @@ import Toption from './Screens/Teacher/Toption';
 import UploadAssignment from './Screens/Teacher/UploadAssignment';
 import CheckAssignment from './Screens/Teacher/CheckAssignment';
 import AddDatabase from './Screens/Teacher/AddDatabase';
+import TeacherExQuery from './Screens/Teacher/TeacherExQuery';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
@@ -107,6 +108,9 @@ const TeacherStack=()=>{
   <T_Stack.Screen name="TeacherLogin" component={TeacherLogIn}/>
   <T_Stack.Screen name ="Toptions" component={Toption}/>
   <T_Stack.Screen name ="UploadAssignment" component={UploadAssignment}/>
+
+  <T_Stack.Screen name ="TeacherExQuery" component={TeacherExQuery}/>
+  
   <T_Stack.Screen name ="TeacherScreen" component={Tabnavi}/>
 
    </T_Stack.Navigator>
