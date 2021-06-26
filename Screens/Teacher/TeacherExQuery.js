@@ -28,18 +28,32 @@ databaseName:"Ecomerce"
 
 const TeacherExQuery=(props)=>{
     const[result,setResult]=useState([])
-
     const [answer,setAnswer]=useState([])
 
+    const getAnswer=()=>{
+      const username=props.route.params.userName
+      const lessonNo=props.route.params.LessonNo
+      console.log(username,lessonNo)
+      try{
+        fetch(`http://${IpAddress}/backend/api/Teacher/getAnswer?lesson=${lessonNo}&userName=${username}`)
+        .then(res=>res.json())
+        .then((res)=>{
+           console.log(res)
+           setAnswer(res)
+          })
+        }catch(e){
+          console.debug(e.toString())
+        }
+            
+    }
     useEffect(()=>{
-setAnswer(QuestionList)
+getAnswer();
 
 
     },[]
      
     )
-    console.log(props)
-    
+
     const mData=(Q,an)=>{
         console.log(Q)
         console.log(an)
@@ -62,12 +76,11 @@ setAnswer(QuestionList)
             
          });       
         
-         console.log(result)
        }
     
     const Taheader=()=>{
         if(result===undefined){
-          console.log('ffffffffff')
+return ;
         }
         if(result.length>=1){
         let d=Object.keys(result[0])
@@ -99,8 +112,8 @@ return(
         <Text>Q#{data.QuestionNo}</Text>
     </View>
    <View>
-       <TouchableOpacity onPress={()=>{mData(data.databaseName,data.Answer)}}>
-        <Text>Ans:{data.Answer}</Text>
+       <TouchableOpacity onPress={()=>{mData(data.DatabaseName,data.Answer)}}>
+        <Text>{data.Answer}</Text>
         </TouchableOpacity>
     </View>
     </View>

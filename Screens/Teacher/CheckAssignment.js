@@ -94,8 +94,9 @@ const { container } = styles
               return(
                 <View key={index}>
                   <TouchableOpacity onPress={()=>props.navigation.navigate('TeacherExQuery',{
-                    stu:data.UserName,
-                    LessonNo:data.LessonNo
+                    userName:data.UserName,
+                    LessonNo:data.LessonNo,
+                    
                   })}>
                   <Text style={styles.ListDesign}>{data.UserName}</Text>
                   </TouchableOpacity>
