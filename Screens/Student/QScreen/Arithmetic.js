@@ -65,7 +65,7 @@ import {
     // -----------------Function ----------
 
     useEffect(() => {
-        fetch('http://192.168.10.7/backend/api/values/GetDatabase')
+        fetch('http://192.168.10.6/backend/api/values/GetDatabase')
         .then(res=>res.json())
         .then((data)=>{
             setDatabase(data)
@@ -76,7 +76,7 @@ import {
       
      const GetTabeName=(item)=>{
        const database=item.itemValue
-      fetch(`http://192.168.10.7/backend/api/values/gettable?TableName=${database}`)
+      fetch(`http://192.168.10.6/backend/api/values/gettable?TableName=${database}`)
       .then(res=>res.json())
       .then((data)=>{
           console.log(data)
@@ -88,7 +88,7 @@ import {
   const GetColumnNames=(da)=>{
   console.log('table name name',da.itemValue)
   const data=da.itemValue
-        fetch(`http://192.168.10.7/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+        fetch(`http://192.168.10.6/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
   .then(res=>res.json())
   .then((data)=>{
       //console.log(data)

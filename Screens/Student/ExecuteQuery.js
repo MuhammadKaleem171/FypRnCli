@@ -43,8 +43,8 @@ const ExecuteQuery=(props)=>{
        }
     
        const SubmitQuestion=()=>{
-         console.log('cccccccccccccccccccccccccccccc')
-         const QData={
+         try{
+         const QData=JSON.stringify({
            UserName:'17-arid-3460',
            AssignmentID:props.route.params.AssignmentID,
            classID:1,
@@ -52,9 +52,22 @@ const ExecuteQuery=(props)=>{
            QuestionNo:QuestionNO,
            Answer:props.route.params.Query,
            LessonNo:props.route.params.lessonNo,
-         }
-
-         console.log(QData)
+         })
+         fetch('http://192.168.10.6/backend/api/Student/PostAssignment', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: QData
+  }).then(response => response.json()) 
+  .then(json => {
+ console.log(json)
+    alert(json)
+  })
+}catch(e){
+  console.log(e)
+}
        }
     const Taheader=()=>{
         if(result===undefined){
