@@ -395,7 +395,9 @@ setStudentAssignment(data)
     setShowModal(!showModal);
     props.navigation.navigate('ExQuery',{
       Query:query,
-      database:SelectedDatabase
+      database:SelectedDatabase,
+      AssignmentID:Assigment.AssignmentID,
+      lessonNo:props.route.params.Lesson
      } )
   }
 } title="Execute Query"

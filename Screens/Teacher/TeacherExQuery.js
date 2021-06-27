@@ -62,8 +62,6 @@ getAnswer();
          .then((data)=>{
            console.log('cccccccccccccccccccccc',data)
              setResult(data[0])
-            
-            
              result.map(m=>{
                let va=Object.values(m)
                for(let v of va){
