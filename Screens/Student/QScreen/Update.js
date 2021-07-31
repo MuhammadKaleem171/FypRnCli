@@ -1,34 +1,20 @@
+import React,{useEffect,useState} from 'react'
+import { View, Text, StyleSheet,ScrollView,TextInput,
+    TouchableOpacity,Button,Image,Modal} from 'react-native'
 
-import React,{useState,useEffect}from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TextInput,
-    Button,
-    TouchableOpacity,
-    Modal,
-    KeyboardAvoidingView,
-    ScrollView,
-    Switch,Alert,
-  } from "react-native";
-  import CheckBox from '@react-native-community/checkbox'
-  import {Picker} from '@react-native-picker/picker'
+
+/**
+* @author
+* @function Update
+**/
+import CheckBox from '@react-native-community/checkbox'
+import {Picker} from '@react-native-picker/picker'
 import IpAddress from '../../../Enviornment/Ipconfig'
 import PDFView from 'react-native-view-pdf'
 import DocumentPicker from 'react-native-document-picker'
 import RNFetchBlob from 'rn-fetch-blob'
-
-  const serverList=[{
-    ServerName:"MALIKKALEEM\SQLEXPRESS01"
-  },
-  {
-    ServerName:'MALIKKALEEM\SQLEXPRESS01'
-  }
-  ]
-  const Select_Clause=(props)=>{
-    console.log(props.route.params.Lesson)
+const Update = (props) => {
+    const [inputs, setInputs] = useState([]);
     const[Database,setDatabase]=useState([])
     const[SelectedDatabase,setSelectedDatabase]=useState()
     const [TableName,setTableName]=useState([])
@@ -48,171 +34,190 @@ import RNFetchBlob from 'rn-fetch-blob'
     const [StudentAssignment,setStudentAssignment]=useState(null)
     const [filedata,setFileData]=useState(null)
 
+    const [OnJoinColum,setOnJoinColum]=useState()
 
-    // -----------------Function ----------
-  
+    const [isShowInputText,SetisShowInputText]=useState(false);
+
+    const [CValue,setCValue]=useState();
+    const[ComparisonOperator,setComparisonOperator]=useState();
 
     const getAssignment=()=>{
-      const LessonNo=props.route.params.Lesson
-
-      console.log('lesson =',LessonNo)
-      console.log(IpAddress)
-      try{
-fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
-.then(res=>res.json())
-.then((res)=>{
-    setAssignment(res)
-  })
-}catch(e){
-  console.debug(e.AssignmentName)
-}
-    }
-
-
-  const StUpload=()=>{
-    console.log('ggg',StudentAssignment)
-    try{
-      const data=JSON.stringify({
-        UserName:"17-arid-3460",
-        ClassID:1,
-        AssignmentID:26,
-        base64:StudentAssignment,
-      })
-      console.debug(data)
-
-    fetch('http://192.168.1.18/backend/api/Student/PostAssignment', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: data
-  }).then(response => response.json()) 
-  .then(json => {
- console.log(json)
-    alert(json)
-  })
-}catch(e){
-
-  console.log(e)
-}
- 
-  }  
-
-    useEffect(() => {
-      getAssignment();
-        fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
-        .then(res=>res.json())
-        .then((data)=>{
-            setDatabase(data)
-        });            
-      }, 
-      
-    
-      []);
+        const LessonNo=1;
   
-
-      const selectFile =async()=>{
+        console.log('lesson =',LessonNo)
         try{
-            const res =await DocumentPicker.pick({
-              type: [DocumentPicker.types.pdf],
-
-            }) 
-            setFileData(res)
-            RNFetchBlob.fs.readFile(res.uri,'base64').then(
-                (data)=>{
-setStudentAssignment(data)
-                }
-            )
-        }catch(e){
-            console.log(e)
-        }
-    }
-      
-     const GetTabeName=(item)=>{
-       const database=item.itemValue
-      fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
-      .then(res=>res.json())
-      .then((data)=>{
-          setTableName(data)   
-         
-      });
-      }
-     
-  const GetColumnNames=(da)=>{
-  console.log('table name name',da.itemValue)
-  const data=da.itemValue
-        fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+  fetch(`http://${IpAddress}/backend/api/Teacher/Get?AssignmentNO=${LessonNo}`)
   .then(res=>res.json())
-  .then((data)=>{
-      //console.log(data)
-      setCoulumnName(data)
-  });
-      }
-  
-  
-   const co=()=>{
-    let a='';
-    ColumnName.forEach(element => {
-      if(element.isChecked==true){      
-          console.log(element.id,element.column)
-           a=a+element.column+','   
-      }
-      
-  });
-  let v=''
-    for(let i=0;i<a.length-1;i++){
-      v=v+a[i]
-    }
-    
-    
-  setQColum(v);
-
-    }
-    
-   const ShowQuery=()=>{
-    let query=QueryType +' '+QColum+' '+'from'+' '+SelectedTable
-    setQuery(query)
-   }
-  
-   const GetqueryFromDatabase=()=>{
-     console.log('clicked')
-     fetch(`http://${IpAddress}/backend/api/values/SaveQuery?UserName=17-arid-3460`)
-     .then(res=>res.json())
-     .then((response)=>{
-       console.log(response)
-       setGetSavedQuery(response)
-     }).catch((error)=>console.log('erroe',error))
-   }
-  
-   const PostSavedQuery=()=>{
-     console.log('post')
-  
-    fetch(`http://${IpAddress}/backend/api/Values/PostQuery`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        UserName: "17-ardi-3461",
-          Query:query,
-          DatabaseName:SelectedDatabase,
-          Query_Name:Query_Name
-      }),
-    }).then(response => response.json()) 
-    .then(json => {
-      console.log(json);
-      alert(json)
+  .then((res)=>{
+      setAssignment(res)
     })
-    
-   }
-   const resourceType = 'base64';
-// <---------------------------------------------------Function end------------------------------------------->
+  }catch(e){
+    console.debug(e.AssignmentName)
+  }
+      }
 
-      return(
-        <View style={{flex:1,backgroundColor:'#fff'}}>     
-        <ScrollView style={{position:'relative'}}>
+      useEffect(() => {
+        getAssignment();
+          fetch(`http://${IpAddress}/backend/api/values/GetDatabase`)
+          .then(res=>res.json())
+          .then((data)=>{
+              setDatabase(data)
+          });            
+        }, 
+        []);
+
+        const GetTabeName=(item)=>{
+            const database=item.itemValue
+           fetch(`http://${IpAddress}/backend/api/values/gettable?TableName=${database}`)
+           .then(res=>res.json())
+           .then((data)=>{
+               setTableName(data)   
+              
+           });
+           }
+          
+       const GetColumnNames=(da)=>{
+       console.log('table name name',da.itemValue)
+       const data=da.itemValue
+             fetch(`http://${IpAddress}/backend/api/values/GetTableColumn?table=${data}&DatabaseName=${SelectedDatabase}`)
+       .then(res=>res.json())
+       .then((data)=>{
+           //console.log(data)
+           setCoulumnName(data)
+       });
+           }
+       
+       
+        const co=()=>{
+         let a='';
+         let count=0;
+         ColumnName.forEach(element => {
+           if(element.isChecked==true){      
+               console.log(element.id,element.column)
+                a=a+element.column+','  
+                count++;       
+           }
+
+  if(count!=0){
+    const _inputs = [...inputs];
+      for(let i=0;i!=count;i++){
+          console.debug(i)
+    
+    _inputs.push({key: '', value: ''});
+    setInputs(_inputs);
+      }
+  }         
+           
+       });
+       let v=''
+         for(let i=0;i<a.length-1;i++){
+           v=v+a[i]
+         }
+         
+         
+       setQColum(v);
+     
+         }
+         
+        const ShowQuery=()=>{
+let updatequery="";
+let updatequery1="";
+var Col=QColum.split(',')
+        console.debug(inputs[0].value)
+        for(let a=0;a!=Col.length;a++){
+            updatequery=updatequery+Col[a]+" = "+inputs[a].value+","
+        }
+        for(let a=0;a!=updatequery.length-1;a++){
+            updatequery1=updatequery1+updatequery[a];
+        }
+         let query= " set "+updatequery1+" where "+OnJoinColum+" "+ComparisonOperator+" "+CValue;
+         console.log(query)
+         setQuery(query)
+          
+        }
+       
+        const GetqueryFromDatabase=()=>{
+          console.log('clicked')
+          fetch(`http://${IpAddress}/backend/api/values/SaveQuery?UserName=17-arid-3460`)
+          .then(res=>res.json())
+          .then((response)=>{
+            console.log(response)
+            setGetSavedQuery(response)
+          }).catch((error)=>console.log('erroe',error))
+        }
+       
+        const PostSavedQuery=()=>{
+          console.log('post')
+       
+         fetch(`http://${IpAddress}/backend/api/Values/PostQuery`, {
+           method: 'POST',
+           headers: {
+             Accept: 'application/json',
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({
+             UserName: "17-ardi-3461",
+               Query:query,
+               DatabaseName:SelectedDatabase,
+               Query_Name:Query_Name
+           }),
+         }).then(response => response.json()) 
+         .then(json => {
+           console.log(json);
+           alert(json)
+         })
+         
+        }
+
+    const addHandler = ()=>{
+      const _inputs = [...inputs];
+      _inputs.push({key: '', value: ''});
+      setInputs(_inputs);
+    }
+    
+    const deleteHandler = (key)=>{
+      const _inputs = inputs.filter((input,index) => index != key);
+      setInputs(_inputs);
+    }
+  
+    const inputHandler = (text, key)=>{
+      const _inputs = [...inputs];
+      _inputs[key].value = text;
+      _inputs[key].key   = key;
+      setInputs(_inputs);
+      
+    }
+  
+    const getValue=()=>{
+        var Col=QColum.split(',')
+        console.debug(inputs[0].value)
+        for(let a=0;a!=Col.length;a++){
+            console.log(Col[a]+" "+inputs[a].value)
+        }
+        inputs.forEach(element => {
+            console.log(element)
+        });
+    }
+    const showInputText=()=>{
+        return(
+            <View>
+                <ScrollView style={styles.inputsContainer}>
+        {inputs.map((input, key)=>(
+          <View key={key} style={styles.inputContainer}>
+            <TextInput placeholder={(key+1).toString()} value={input.value}  onChangeText={(text)=>inputHandler(text,key)}/>
+            <TouchableOpacity onPress = {()=> deleteHandler(key)}>
+              <Text style={{color: "red", fontSize: 13}}>Delete</Text>
+            </TouchableOpacity> 
+          </View>
+        ))}
+        </ScrollView>
+            </View>
+        )
+    }
+    const resourceType = 'base64';
+    return (
+      <View style={styles.container}>
+          <ScrollView style={{position:'relative'}}>
             <View style={{marginTop:10}}>
               <Text style={styles.intro}>
               The SELECT statement is used to select data 
@@ -227,8 +232,9 @@ setStudentAssignment(data)
               SELECT column_name(s) FROM table_name
               </Text>
               </View>
- {/* <---------------------------Examples---------------------->              */}
-              <View>
+
+               {/* <---------------------------Examples---------------------->              */}
+               <View>
                 <View>
                   <Text style={styles.syntax}> Examples</Text>
                 </View>
@@ -244,26 +250,8 @@ setStudentAssignment(data)
                   </View>
                 </View>
               </View>
-            <View>
+              <View>
             <Text style={styles.heading1}> Let's  Practice</Text>
-            </View>
-              <View style={styles.DatabaseView}>
-            <Text style={styles.heading1}>Select Server Name</Text>
-            <Picker style={styles.dataBasePiker}
-             dropdownIconColor="#21130d" 
-             mode="dropdown"
-            selectedValue={"MALIKKALEEM\SQLEXPRESS01"}
-            >
-            {
-              serverList.map((data,i)=>{
-                return(
-                  <Picker.Item key={i} label={data.ServerName} value={data.ServerName}/>
-                )
-              })
-            }
-
-            </Picker>
-            
             </View>
             <View style={styles.DatabaseView}>
             <Text style={styles.heading1}>Select the Database</Text>
@@ -328,7 +316,7 @@ setStudentAssignment(data)
             }
             return d;
           }))
-          co()
+         
         }
       
       }
@@ -339,19 +327,83 @@ setStudentAssignment(data)
     }):null
   }
   </View>
+  {
+        isShowInputText?
+        showInputText()
+        :
+        null
+    }
+  <View>
+    <View>
+    <Text style={styles.heading1}>Select Colum  for Update  </Text>
+    </View>
+    <Picker style={styles.dataBasePiker}
+ dropdownIconColor="#21130d" 
+ mode="dropdown"
+  selectedValue={OnJoinColum}
+  onValueChange={((itemValue, itemIndex)=>{
+    setOnJoinColum(itemValue)
+    co()
+    SetisShowInputText(true)
+  }
+  )
+  }
+  >
+    {
+      ColumnName.map(data=>{
+        return(  <Picker.Item key={data.id} label={data.column} value={data.column} />)
+      })
+    }    
+    </Picker>
+
+    </View>
+    <View>
+    <View>
+          <Text style={styles.heading1}>Select Comparison Operator</Text>
+      </View>
+      <View>
+      <Picker selectedValue={ComparisonOperator} 
+    style={styles.dataBasePiker}
+    onValueChange={(item,index)=>{
+      setComparisonOperator(item)
+    }}>
+      <Picker.Item label=">=" value=">=" />
+      <Picker.Item label="<=" value="<="/>
+      <Picker.Item label="<>" value="<>"/>
+      <Picker.Item label=">" value=">" />
+      <Picker.Item label="<" value="<"/>
+      <Picker.Item label="=" value="="/>
+    </Picker>
+      </View>
+
+  </View>
+
+    <View>
+      <View>
+      <Text style={styles.heading1}>Enter condition   </Text>
+      </View>
+      <View>
+<TextInput style={styles.TextInput}
+placeholder="enter value"
+value={CValue}
+onChangeText={(CValue)=>setCValue(CValue)}
+/>
+      </View>
+    </View>
+    
+
  
 
 <View style={{height:60,marginTop:10,justifyContent:'center'}}>
 <Button onPress={() => {
           ShowQuery()
-            setShowModal(!showModal);
+    setShowModal(!showModal);
           }} title="Execute "
   color="#fb5b5a"
   accessibilityLabel="Learn more about this purple button"/> 
 
 
   </View>
-  {/* //////////////////////////////Show Assignment /////////////////////////// */}
   <View style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center',height:200}}>
     <View style={styles.AssignmentView} >
       <Text style={styles.syntax}> Assignment From Lesson   </Text>
@@ -373,7 +425,11 @@ setStudentAssignment(data)
 
 
   </View>
-              </ScrollView>
+        
+        </ScrollView>
+        <View>
+            {/* //////////////////////////////Show Assignment /////////////////////////// */}
+ 
 
 {/* ---------------modal---------------- */}
 
@@ -392,11 +448,12 @@ setStudentAssignment(data)
   <Button 
   onPress={()=>{
     setShowModal(!showModal);
-    props.navigation.navigate('ExQuery',{
+    props.navigation.navigate('UpdateExQuery',{
       Query:query,
-      database:SelectedDatabase,
       AssignmentID:Assigment.AssignmentID,
-      lessonNo:props.route.params.Lesson
+      lessonNo:1,
+      DatabaseName:SelectedDatabase,
+      TableName:SelectedTable,
      } )
   }
 } title="Execute Query"
@@ -463,7 +520,7 @@ setStudentAssignment(data)
               onPress={() => {
                 setShowModal(!showModal);
                 console.log(showModal)
-                setResult('')
+                //setResult('')
               }}
             /> 
 
@@ -471,7 +528,6 @@ setStudentAssignment(data)
            
         </Modal>
         
-
         <Modal
           animationType={'slide'}
           transparent={false}
@@ -532,7 +588,7 @@ setStudentAssignment(data)
           </Modal>
 {/*      Submit    Assignment     Model */}
 
-<Modal 
+{/* <Modal 
 animationType={'fade'}
           transparent={false}
           visible={SubmitAssignmentModel}
@@ -574,13 +630,29 @@ animationType={'fade'}
       </View>
 </View>
 <Button title="Close" onPress={()=>setSubmitAssignmentModel(false)} />
-</Modal>
-          </View>
-      )
+</Modal> */}
+        </View>
+        
+      </View>
+    );
   }
-
-  const styles=StyleSheet.create({
-
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+      backgroundColor: 'white'
+    },
+    inputsContainer: {
+      flex: 1, marginBottom: 20
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: "lightgray"
+    },
     intro:{
         fontSize:16,
         fontFamily:'sans-serif',
@@ -730,4 +802,5 @@ top:-30,
       
 
   })
-  export default Select_Clause;
+
+export default Update

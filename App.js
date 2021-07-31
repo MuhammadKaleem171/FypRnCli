@@ -44,6 +44,8 @@ import UploadAssignment from './Screens/Teacher/UploadAssignment';
 import CheckAssignment from './Screens/Teacher/CheckAssignment';
 import AddDatabase from './Screens/Teacher/AddDatabase';
 import TeacherExQuery from './Screens/Teacher/TeacherExQuery';
+import Update from './Screens/Student/QScreen/Update';
+import UpdateExecute from './Screens/Student/UpdateExecute';
 
 const Stack = createStackNavigator();
 const Stack1 = createStackNavigator();
@@ -70,6 +72,12 @@ const My=()=>{
       
       <Stack1.Screen name="query" component={QueryBuilder}/>
       <Stack1.Screen name="ExQuery" component={ExecuteQuery}/>
+      <Stack.Screen name="Update" component={Update}/>
+
+      <Stack1.Screen name="UpdateExQuery" component={UpdateExecute}/>
+
+
+
       <Stack1.Screen name="Final" component={Final}/>
       <Stack1.Screen name="MidTerm" component={MidTerm}/>
     </Stack1.Navigator>
@@ -122,6 +130,8 @@ const App =()=> {
     <NavigationContainer>
     <Stack.Navigator initialRouteName="StartScreen">
     <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown: false}}/>
+   
+
       <Stack.Screen name="MainScreen" component={MainScreen} options={{headerRight: () => (
             <Button
               onPress={() => BackHandler.exitApp()}

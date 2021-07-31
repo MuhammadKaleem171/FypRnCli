@@ -34,11 +34,12 @@ const StudentLogin=({navigation})=>{
 
 
    const Login=()=>{
-  //  props.navigation.push('query')
+  
    fetch(`http://${IpAddress}/backend/api/values/login?userName=${userName}&password=${password}`, {
      
    }).then(response => response.json()) 
    .then(json => {
+     console.log(json)
      move(json)
    })
   

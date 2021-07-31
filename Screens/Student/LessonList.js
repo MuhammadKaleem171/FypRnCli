@@ -57,9 +57,9 @@ const LessonList=[{
     id:11,
     screen:'Joins'
   },{
-    Content:'Final',
+    Content:'Update',
     id:12,
-    screen:'Final'
+    screen:'Update'
   }
 ]
 export default LessonList;
